@@ -1,0 +1,34 @@
+{
+  "name": "everything-program-management",
+  "version": "0.1.0",
+  "description": "ECC-structured agent harness for program managers — 12 skills, 4 agents, 8 commands, 7 rules, and 3 schemas codifying MECE, Pyramid, SCR, RAID, DMAIC, charters, decision memos, and post-mortems.",
+  "author": {
+    "name": "Sima Bagheri",
+    "url": "https://github.com/bagherisima"
+  },
+  "homepage": "https://github.com/bagherisima/everything-program-management",
+  "repository": "https://github.com/bagherisima/everything-program-management",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "program-management",
+    "pm",
+    "agents",
+    "skills",
+    "minto",
+    "pyramid-principle",
+    "raid",
+    "dmaic",
+    "stakeholder-mapping",
+    "decision-memo",
+    "post-mortem"
+  ],
+  "agents": [
+    "./agents/chief-of-staff-brief.md",
+    "./agents/executive-summary.md",
+    "./agents/risk-triage.md",
+    "./agents/stakeholder-mapper.md"
+  ],
+  "skills": ["./skills/"],
+  "commands": ["./commands/"]
+}

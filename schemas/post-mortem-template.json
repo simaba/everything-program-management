@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://everything-program-management/schemas/post-mortem-template.json",
+  "title": "Post-Mortem Template",
+  "description": "Validates the structure of a blameless post-mortem. Enforces ≥ 3 contributing factors, action items with owners, and presence of a 90-day follow-up.",
+  "type": "object",
+  "required": [
+    "event_name",
+    "event_date",
+    "post_mortem_date",
+    "facilitator",
+    "severity",
+    "status",
+    "summary",
+    "impact",
+    "timeline",
+    "contributing_factors",
+    "what_worked",
+    "what_didnt_work",
+    "action_items",
+    "lessons",
+    "follow_up_date"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "event_name": {"type": "string", "minLength": 4},
+    "event_date": {"type": "string", "format": "date-time"},
+    "post_mortem_date": {"type": "string", "format": "date"},
+    "facilitator": {"type": "string", "minLength": 2},
+    "severity": {
+      "type": "string",
+      "enum": ["SEV-1", "SEV-2", "SEV-3", "SEV-4"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "in_review", "final"]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 2000,
+      "description": "One paragraph: what happened, impact, what changed. Blameless."
+    },
+    "impact": {
+      "type": "object",
+      "required": ["users_affected", "duration"],
+      "additionalProperties": false,
+      "properties": {
+        "users_affected": {"type": "string"},
+        "duration": {"type": "string"},
+        "revenue_impact": {"type": "string"},
+        "other": {"type": "string"}
+      }
+    },
+    "timeline": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["time_utc", "event"],
+        "additionalProperties": false,
+        "properties": {
+          "time_utc": {"type": "string"},
+          "event": {"type": "string"}
+        }
+      },
+      "description": "Observable events with timestamps. Not narrative."
+    },
+    "what_happened": {
+      "type": "string",
+      "description": "2-4 paragraphs of blameless narrative"
+    },
+    "contributing_factors": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["factor", "explanation"],
+        "additionalProperties": false,
+        "properties": {
+          "factor": {"type": "string", "minLength": 4},
+          "explanation": {"type": "string", "minLength": 20}
+        }
+      },
+      "description": "≥ 3 factors. Single-root-cause analyses are a red flag."
+    },
+    "what_worked": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 10},
+      "description": "Specific behaviors, tools, or processes that prevented worse outcome"
+    },
+    "what_didnt_work": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 10},
+      "description": "System-level, not person-level"
+    },
+    "action_items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["action", "type", "owner", "due", "tracking"],
+        "additionalProperties": false,
+        "properties": {
+          "action": {"type": "string", "minLength": 10},
+          "type": {
+            "type": "string",
+            "enum": ["prevent", "detect", "mitigate"]
+          },
+          "owner": {"type": "string", "minLength": 2},
+          "due": {"type": "string", "format": "date"},
+          "tracking": {
+            "type": "string",
+            "description": "Ticket ID in real project tracker (INFRA-1204, JIRA-22, etc.). Doc-only items don't count."
+          }
+        }
+      }
+    },
+    "lessons": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 5,
+      "items": {"type": "string", "minLength": 20},
+      "description": "2-3 durable lessons applicable beyond this event"
+    },
+    "follow_up_date": {
+      "type": "string",
+      "format": "date",
+      "description": "90-day check-in to verify action items shipped"
+    },
+    "appendix": {
+      "type": "object",
+      "additionalProperties": {"type": "string"},
+      "description": "Named links: monitoring, related_raid, prior_incidents, etc."
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "name": "everything-program-management",
+  "owner": {
+    "name": "Sima Bagheri",
+    "email": "bagherisima@gmail.com"
+  },
+  "metadata": {
+    "description": "Program management craft, codified as a Claude Code plugin. Skills for MECE, Pyramid, SCR, RAID, DMAIC, charters, decision memos, and post-mortems."
+  },
+  "plugins": [
+    {
+      "name": "everything-program-management",
+      "source": "./",
+      "description": "ECC-structured agent harness for program managers — 12 skills, 4 agents, 8 commands, plus rules, schemas, and worked examples for the artifacts PMs build every week.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Sima Bagheri",
+        "email": "bagherisima@gmail.com"
+      },
+      "homepage": "https://github.com/bagherisima/everything-program-management",
+      "repository": "https://github.com/bagherisima/everything-program-management",
+      "license": "MIT",
+      "keywords": [
+        "program-management",
+        "pm",
+        "skills",
+        "agents",
+        "minto",
+        "raid",
+        "dmaic"
+      ],
+      "category": "workflow",
+      "tags": [
+        "program-management",
+        "pm",
+        "skills",
+        "agents",
+        "decision-memo",
+        "post-mortem"
+      ],
+      "strict": false
+    }
+  ]
+}

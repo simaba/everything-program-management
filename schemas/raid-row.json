@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://everything-program-management/schemas/raid-row.json",
+  "title": "RAID Row",
+  "description": "One row of a RAID log (Risks, Assumptions, Issues, Dependencies). Rows are schema-validated so downstream triage and briefs can rely on shape.",
+  "type": "object",
+  "required": ["id", "type", "title", "severity", "likelihood", "owner", "status", "last_updated"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^RAID-[0-9]{4}$",
+      "description": "Zero-padded 4-digit ID, e.g., RAID-0014"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["Risk", "Assumption", "Issue", "Dependency"],
+      "description": "RAID category"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 120,
+      "description": "One-line title readable in a table"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "2-4 sentence description — what is the concern and why does it matter"
+    },
+    "severity": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "1 = negligible impact, 5 = program-ending"
+    },
+    "likelihood": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "1 = very unlikely, 5 = certain"
+    },
+    "score": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 25,
+      "description": "severity × likelihood; computed, not human-entered"
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 2,
+      "description": "Named human. Not 'team' or 'leadership'."
+    },
+    "due": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO date for next action. Nullable for items in 'watch' status."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "mitigating", "watch", "accepted", "closed", "transferred"],
+      "description": "Lifecycle state"
+    },
+    "mitigation": {
+      "type": "string",
+      "description": "What we are doing about it. Required when status is 'mitigating'."
+    },
+    "trigger": {
+      "type": "string",
+      "description": "What would cause this to become an issue (for Risks only)"
+    },
+    "assumption_test": {
+      "type": "string",
+      "description": "How we will validate (for Assumptions only)"
+    },
+    "blocking": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "List of RAID-IDs or ticket-IDs this depends on (for Dependencies only)"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO date of last state change"
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Optional tags — program name, workstream, etc."
+    }
+  }
+}

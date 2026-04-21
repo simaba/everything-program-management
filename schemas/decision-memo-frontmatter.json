@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://everything-program-management/schemas/decision-memo-frontmatter.json",
+  "title": "Decision Memo Frontmatter",
+  "description": "YAML frontmatter for a decision memo. Validates that the memo is decision-grade — has a decider, a due date, a question, and a status.",
+  "type": "object",
+  "required": ["id", "title", "decider", "due", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^DM-[0-9]{4}$",
+      "description": "Zero-padded 4-digit decision-memo ID, e.g., DM-0014"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 200,
+      "description": "The question being decided, ideally phrased as a question and ≤ one sentence"
+    },
+    "decider": {
+      "type": "string",
+      "minLength": 3,
+      "description": "Email or named human who will sign. Not a team."
+    },
+    "co_deciders": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Other named humans who must concur. Use sparingly; one decider is the norm."
+    },
+    "due": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO date by which the decision is needed"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "in_review", "decided", "deferred", "withdrawn"],
+      "description": "Lifecycle state"
+    },
+    "decided": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "ISO date when the decision was made; null until decided"
+    },
+    "decision": {
+      "type": ["string", "null"],
+      "description": "Which option was chosen, e.g., 'Option B'. Null until decided."
+    },
+    "reversibility": {
+      "type": "string",
+      "enum": ["one_way", "two_way"],
+      "description": "Bezos framing — one-way doors require more deliberation"
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Optional tags — program, region, workstream"
+    },
+    "links": {
+      "type": "object",
+      "additionalProperties": {"type": "string"},
+      "description": "Named links: prior_memo, related_raid, source_doc, etc."
+    }
+  },
+  "if": {"properties": {"status": {"const": "decided"}}},
+  "then": {"required": ["decided", "decision"]}
+}
