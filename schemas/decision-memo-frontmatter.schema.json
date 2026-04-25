@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/simaba/everything-program-management/schemas/decision-memo-frontmatter.schema.json",
+  "title": "Decision Memo Frontmatter",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision_id",
+    "title",
+    "status",
+    "owner",
+    "decision_date",
+    "review_date",
+    "recommended_option"
+  ],
+  "properties": {
+    "decision_id": {
+      "type": "string",
+      "pattern": "^DM-\\d{4}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 140
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "in_review", "decided", "superseded"]
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 80
+    },
+    "decision_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "review_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "recommended_option": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "sponsor": {
+      "type": "string",
+      "maxLength": 80
+    },
+    "linked_raid_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(R|A|I|D)-\\d{4}$"
+      },
+      "uniqueItems": true
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 40
+      },
+      "uniqueItems": true
+    }
+  }
+}
