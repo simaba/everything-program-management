@@ -13,6 +13,9 @@ dependencies = [
   "jsonschema>=4.22",
 ]
 
+[project.scripts]
+pmkit = "pmkit.cli:main"
+
 [project.optional-dependencies]
 dev = [
   "pytest>=8.0",
@@ -21,3 +24,9 @@ dev = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
