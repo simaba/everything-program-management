@@ -6,13 +6,13 @@
 
 A structured harness toolkit for program managers, delivery leads, chiefs of staff, and PMO-style operators.
 
-This repository packages repeatable PM work into reusable agents, skills, templates, examples, and schemas so the work is faster, more consistent, and easier to review.
+This repository packages repeatable PM work into reusable agents, skills, templates, examples, schemas, and lightweight validation utilities so the work is faster, more consistent, and easier to review.
 
 ## Status
 
 **Foundation release.**
 
-This repository now includes a working entry layer, four core skills, two specialist agents, practical templates, schemas, commands, and worked examples. It is still early, but it is no longer an incubation placeholder.
+This repository now includes a working entry layer, core skills, specialist agents, practical templates, commands, worked examples, JSON schemas, and a small `pmkit` validation CLI. It is still early, but it is no longer an incubation placeholder.
 
 ## Choose this repo when
 
@@ -23,43 +23,51 @@ Use this repository when you need help producing structured PM artifacts such as
 - executive summaries and steering briefs
 - stakeholder maps
 - decision memos
+- daily chief-of-staff style PM briefs
 
-Do **not** use this repository as your system of record for project execution. It is the artifact-generation layer that sits beside Jira, Asana, Excel, Confluence, or similar tools.
+Do **not** use this repository as your system of record for project execution. It is the artifact-generation and validation layer that sits beside Jira, Asana, Excel, Confluence, or similar tools.
 
 ## What is included now
 
 | Surface | Included now | Purpose |
 |---|---|---|
-| **Root entry layer** | `AGENTS.md` | Tells a harness or human where to start and how the repo is structured |
-| **Skills** | 4 | Core methods for chartering, stakeholder mapping, decision memos, and RAID management |
-| **Agents** | 2 | Focused roles for executive summarization and risk triage |
-| **Commands** | 4 | Reusable command prompts for common PM workflows |
-| **Templates** | 5 | Reusable markdown artifacts |
-| **Examples** | 4 | Before and after examples for chartering and executive updates |
+| **Root entry layer** | `AGENTS.md`, `CLAUDE.md` | Tells a harness or human where to start and how the repo is structured |
+| **Skills** | multiple | Core methods for chartering, executive briefing, stakeholder mapping, decision memos, RAID management, and chief-of-staff briefing |
+| **Agents** | 3 | Focused roles for executive summarization, risk triage, and daily PM briefing |
+| **Commands** | multiple | Reusable command prompts for common PM workflows |
+| **Templates** | multiple | Reusable markdown artifacts |
+| **Examples** | multiple | Before-and-after examples for practical PM outputs |
 | **Schemas** | 2 | JSON schemas for RAID rows and decision-memo frontmatter |
-| **Docs** | 1 | Quickstart guidance |
+| **Utility layer** | `pmkit` CLI | Validates structured artifacts against bundled schemas |
+| **Docs and rules** | included | Quickstart and always-on writing rules |
 
 ## Repository structure
 
 ```text
 AGENTS.md
+CLAUDE.md
 agents/
 commands/
 docs/
 examples/
+rules/
 schemas/
 skills/
+src/
 templates/
+tests/
 ```
 
-## Included skills
+## Included skill families
 
-| Skill | What it helps produce |
+| Skill family | What it helps produce |
 |---|---|
-| `project-charter` | project charter with scope, goals, assumptions, risks, and success measures |
-| `stakeholder-mapping` | stakeholder map, influence notes, and communication strategy |
-| `decision-memo` | options memo with recommendation, rationale, and risks |
-| `raid-log` | structured RAID entries and update discipline |
+| Chartering | project charter with scope, goals, assumptions, risks, and success measures |
+| Executive communication | one-page briefs, BLUF summaries, SCR narratives |
+| Stakeholder alignment | stakeholder maps, influence notes, and communication strategy |
+| Decision support | options memo with recommendation, rationale, and risks |
+| RAID discipline | structured RAID entries and update hygiene |
+| Daily operating cadence | chief-of-staff style PM briefing |
 
 ## Included agents
 
@@ -67,6 +75,7 @@ templates/
 |---|---|
 | `executive-summary` | turns long material into a concise executive-ready brief |
 | `risk-triage` | reviews risks and issues, re-scores them, and recommends actions |
+| `chief-of-staff-brief` | composes a one-page daily PM brief from context, RAID state, and decisions due |
 
 ## Quick start
 
@@ -75,6 +84,21 @@ templates/
 3. Pick the closest command or skill for the artifact you need.
 4. Use the relevant template.
 5. Compare your draft to the worked examples before sending.
+
+## Validate structured artifacts
+
+The bundled `pmkit` CLI validates two artifact types today:
+
+- RAID rows stored as JSON
+- decision memo frontmatter stored in Markdown
+
+Install and run:
+
+```bash
+python -m pip install -e .
+pmkit validate raid examples/data/raid-row.json
+pmkit validate decision-memo examples/data/decision-memo.md
+```
 
 ## Design principles
 
@@ -88,10 +112,10 @@ templates/
 
 The next release should add:
 
-1. one more agent for chief-of-staff style briefing
-2. structured tests or validators for template frontmatter and artifact shape
-3. richer examples across decision memos and stakeholder maps
-4. a small utility layer for tracker validation and formatting
+1. richer worked examples across stakeholder maps and decision memos
+2. a small formatter for RAID JSON and memo frontmatter
+3. optional CSV import and export helpers for RAID data
+4. CI to run `pmkit` validation tests automatically
 
 ## Relationship to adjacent repos
 
