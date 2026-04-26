@@ -12,7 +12,9 @@ This repository packages repeatable PM work into reusable agents, skills, templa
 
 **Foundation release.**
 
-This repository now includes a working entry layer, core skills, specialist agents, practical templates, commands, worked examples, JSON schemas, and a small `pmkit` validation CLI. It is still early, but it is no longer an incubation placeholder.
+This repository now includes a working entry layer, core skills, specialist agents, practical templates, commands, worked examples, JSON schemas, a small `pmkit` validation CLI, and automated CI checks for the packaged utility layer.
+
+It is still early, but it is no longer an incubation placeholder.
 
 ## Choose this repo when
 
@@ -36,9 +38,10 @@ Do **not** use this repository as your system of record for project execution. I
 | **Agents** | 3 | Focused roles for executive summarization, risk triage, and daily PM briefing |
 | **Commands** | multiple | Reusable command prompts for common PM workflows |
 | **Templates** | multiple | Reusable markdown artifacts |
-| **Examples** | multiple | Before-and-after examples for practical PM outputs |
+| **Examples** | multiple | Worked examples for practical PM outputs and validated example data |
 | **Schemas** | 2 | JSON schemas for RAID rows and decision-memo frontmatter |
 | **Utility layer** | `pmkit` CLI | Validates structured artifacts against bundled schemas |
+| **Automation** | CI workflow | Runs tests and validates bundled example artifacts automatically |
 | **Docs and rules** | included | Quickstart and always-on writing rules |
 
 ## Repository structure
@@ -56,6 +59,7 @@ skills/
 src/
 templates/
 tests/
+.github/workflows/
 ```
 
 ## Included skill families
@@ -115,7 +119,7 @@ The next release should add:
 1. richer worked examples across stakeholder maps and decision memos
 2. a small formatter for RAID JSON and memo frontmatter
 3. optional CSV import and export helpers for RAID data
-4. CI to run `pmkit` validation tests automatically
+4. one additional structured schema for charter frontmatter or executive briefs
 
 ## Relationship to adjacent repos
 
