@@ -25,12 +25,12 @@ jobs:
       - name: Install package and dev dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e .[dev]
+          python -m pip install -e '.[dev]'
 
       - name: Run tests
-        run: pytest
+        run: python -m pytest -q
 
       - name: Validate bundled examples with pmkit
         run: |
-          pmkit validate raid examples/data/raid-row.json
-          pmkit validate decision-memo examples/data/decision-memo.md
+          python -m pmkit.cli validate raid examples/data/raid-row.json
+          python -m pmkit.cli validate decision-memo examples/data/decision-memo.md
