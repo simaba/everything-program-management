@@ -1,28 +1,61 @@
-# Security
+# Security Policy
 
-## What this plugin can and cannot do
+## Supported versions
 
-This is a **markdown-only** plugin. It does not execute code on install. The only executable surface is:
+This repository is primarily a program-management toolkit made of markdown assets, examples, schemas, and a lightweight Python utility package (`pmkit`).
 
-1. `install.sh` / `install.ps1` — copies files into your Claude config directory. Read it before running.
-2. `scripts/raid_log_cli.py` and `scripts/decision_journal.py` — small Python helpers you opt into running. They read/write local markdown files only and make no network calls.
+Security attention is focused on:
 
-The skills, agents, commands, and rules are all instructions to Claude. They don't ship executable code that runs on your machine.
+- the latest `main` branch
+- the packaged Python utility under `src/pmkit`
+- GitHub Actions workflow files
+- example artifacts and schemas that could be reused by downstream users
 
-## What you should still verify
+Older snapshots and forks may not receive fixes.
 
-- Pin to a reviewed commit when vendoring (`git checkout <full-sha>`).
-- Read any new skill before merging — a malicious skill could instruct the model to do harmful things.
-- The Python helpers run with your user permissions. Read them.
+## Security scope
+
+The main executable surface in this repository is limited to:
+
+1. the `pmkit` Python package and CLI
+2. GitHub Actions workflows
+3. JSON Schema validation paths and example artifacts used in tests or CI
+
+Most repository content is markdown guidance, templates, examples, commands, skills, and agents. Those files do not execute code by themselves, but they still matter from a trust and safety perspective because unsafe instructions or misleading defaults can be copied into downstream workflows.
+
+## What to verify before reuse
+
+Before using this repository in your own environment:
+
+- review the Python utility code under `src/pmkit`
+- review GitHub workflow files before enabling them in forks
+- confirm public examples are safe for your context before adapting them
+- pin to a reviewed commit if you vendor or mirror the repository internally
 
 ## Reporting a vulnerability
 
-If you find a way that this plugin could be abused — for example, a skill that could lead the model to exfiltrate data or perform destructive actions — email **bagherisima@gmail.com** with:
+If you discover a security issue or safety-relevant problem, please do **not** disclose exploit details publicly.
 
-- A description of the issue
-- Steps to reproduce
-- Suggested mitigation (if any)
+Preferred options:
 
-I'll acknowledge within 7 days and aim to ship a fix or mitigation within 30 days for high-severity issues.
+1. Use GitHub Private Vulnerability Reporting if it is available for the repository.
+2. If private reporting is not available, open a minimal issue titled `[SECURITY] Private reporting request` without exploit details, or contact **bagherisima@gmail.com** with a concise summary and a request for a private channel.
 
-Please do **not** file public GitHub issues for security reports.
+Please include, where possible:
+
+- affected file or component
+- impact summary
+- reproduction guidance shared privately
+- suggested mitigation, if known
+
+## Response targets
+
+These are targets, not guarantees:
+
+- acknowledgment within 7 days
+- initial assessment within 14 days
+- mitigation or fix timing based on severity and practicality
+
+## Disclosure approach
+
+Confirmed issues should be handled through coordinated disclosure. Public discussion should happen only after a fix, mitigation, or risk note is ready.
