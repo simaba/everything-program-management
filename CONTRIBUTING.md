@@ -1,46 +1,103 @@
 # Contributing
 
-Thanks for your interest. This repo has a high bar for new skills and a lower bar for examples and bug fixes.
+Thanks for your interest in improving this repository.
 
-## What's in scope
+`everything-program-management` is a reusable toolkit for structured program-management artifacts. Good contributions should make the repo more useful, more reusable, and more trustworthy for real PM workflows.
 
-**Yes, please:**
-- New skills that codify a *named* PM method with a citation (Minto, Six Sigma, Ishikawa, McKinsey-style frameworks, Reforge frameworks, Lenny-canon frameworks, etc.)
-- New worked examples under `examples/` showing real artifacts produced by the skills
-- New rules that catch common PM antipatterns (buried lede, single-option memo, etc.)
-- Translations of skill descriptions into other languages
-- Adapter patches for non-Claude harnesses (Codex, Cursor, Gemini)
-- Schema additions or tightenings
+## What belongs here
 
-**No, thanks:**
-- Skills that codify "vibes" or unnamed frameworks
-- Skills that compete with an existing skill without a clear differentiator
-- Anything that requires a paid SaaS to function (this is a pure markdown plugin by design)
-- Decks, infographics, "thought leadership" — write a Medium post, link it from `docs/`
+Contributions are especially welcome when they add:
 
-## How to add a skill
+- reusable PM templates
+- worked examples with generic, public-safe content
+- clearer skill or agent instructions
+- schema improvements for structured PM artifacts
+- small validation utilities for existing schemas and examples
+- tests and CI improvements
+- documentation that makes the repo easier to adopt
 
-1. Pick a method that isn't already covered. Run `ls skills/` to check.
-2. Copy `examples/_skill-template/SKILL.md` to `skills/<your-skill-name>/SKILL.md`.
-3. Fill in the frontmatter — `name`, `description` with `TRIGGER when:` and `DO NOT TRIGGER when:` clauses, `origin`.
-4. Write the body. Required sections: `When to Use`, `How It Works`, `Examples`, `Reviewer Checklist`, `Source` (the citation).
-5. Add at least one worked example to `examples/`.
-6. Add the skill name to the table in `README.md`.
-7. Open a PR with a one-line description.
+## What does not belong here
 
-## How to add an agent
+Please avoid contributions that are primarily:
 
-1. Agents compose multiple skills. If your work fits one skill, write a skill, not an agent.
-2. Copy the format of `agents/chief-of-staff-brief.md`.
-3. The agent's frontmatter must declare its `tools` and a `model` (haiku for triage, sonnet for default, opus for synthesis).
-4. The agent's body must explain *which skills it loads* and *in what order*.
+- personal career notes or job-search material better suited to another repo
+- company-specific internal templates copied from private work contexts
+- essay-only content presented as if it were operational tooling
+- vague frameworks without a clear PM use case
+- duplicated assets that overlap with an existing template, skill, or command without a clear differentiator
 
-## Style
+## Contribution principles
 
-- Match the voice in `SOUL.md`.
-- Run markdownlint locally (`npx markdownlint-cli '**/*.md'`).
-- Keep top-level files short. Long content goes under `docs/`.
+Optimize for:
+
+- **reusability**: public-safe and easy to adapt
+- **clarity**: outputs should be structured and decision-oriented
+- **traceability**: owners, dates, assumptions, and open risks should be visible
+- **honest maturity**: do not describe planned capabilities as shipped capabilities
+
+## How to contribute
+
+### 1. Open an issue first
+
+Before opening a pull request, describe:
+
+- what you want to add or change
+- why it improves the repository
+- which existing folder it best fits into
+- whether it introduces a new template, example, schema, command, skill, or utility
+
+### 2. Keep examples public-safe
+
+All contributed examples should be:
+
+- generic or fictional
+- free of confidential employer or customer information
+- free of real personal data
+- safe to reuse in a public template context
+
+### 3. Match the repository structure
+
+Use the current structure intentionally:
+
+- `templates/` for reusable artifact shapes
+- `examples/` for filled public-safe examples
+- `skills/` for method guidance
+- `agents/` for role-based orchestration
+- `commands/` for direct entry prompts
+- `schemas/` for structured artifact validation
+- `src/pmkit/` for lightweight utility code
+- `docs/` for guidance and adoption notes
+
+### 4. If you add a new skill
+
+A good skill should:
+
+- solve a recognizable PM problem
+- explain when to use it and when not to use it
+- provide a reviewer checklist or quality bar
+- align to the repository’s practical PM focus
+- include or reference at least one worked example when possible
+
+### 5. If you add code or schemas
+
+Please also:
+
+- add or update tests where practical
+- keep the implementation lightweight and readable
+- avoid introducing unnecessary third-party dependencies
+- ensure examples validate if the repo claims they do
+
+## Pull request checklist
+
+Before submitting a PR, verify:
+
+- [ ] the change fits the repository purpose
+- [ ] README claims still match what is actually shipped
+- [ ] examples are generic and public-safe
+- [ ] new files are placed in the correct folder
+- [ ] tests pass if code or schemas changed
+- [ ] the contribution does not duplicate an existing artifact without a clear reason
 
 ## License
 
-By contributing, you agree your contributions are licensed under the MIT license (`LICENSE`).
+By contributing, you agree that your contributions will be licensed under the MIT license in this repository.
