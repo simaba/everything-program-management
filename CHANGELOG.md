@@ -2,18 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+This project follows semantic versioning where practical. Until the first stable release, minor versions may include structural changes to templates, schemas, examples, and utility behavior.
 
-## [0.1.0] — 2026-04-19 — Initial Release
+## [0.1.0] — Foundation release
 
 ### Added
-- 12 PM skills: `mece-decomposition`, `pyramid-principle`, `scr-narrative`, `raid-log`, `stakeholder-mapping`, `project-charter`, `dmaic-structuring`, `decision-memo`, `post-mortem-facilitation`, `chief-of-staff-brief`, `executive-summary-brief`, `risk-triage`.
-- 4 agents: `chief-of-staff-brief`, `executive-summary`, `risk-triage`, `stakeholder-mapper`.
-- 8 slash commands: `/charter`, `/raid-update`, `/exec-brief`, `/decision-memo`, `/post-mortem`, `/stakeholder-map`, `/pyramid`, `/mece`.
-- 7 always-on rules covering Pyramid-first, MECE compliance, named methods, multi-option decision memos, blameless post-mortems, TBD-over-fabrication, and one-page exec briefs.
-- 3 contexts: `pm-mode`, `executive-mode`, `crisis-mode`.
-- 3 JSON schemas for RAID rows, decision-memo frontmatter, and post-mortem templates.
-- Python helpers: `raid_log_cli.py` and `decision_journal.py`.
-- `install.sh` and `install.ps1` installers.
-- Worked examples under `examples/`.
-- Plugin manifest (`.claude-plugin/plugin.json`) and marketplace entry.
+
+- Repository entry layer with `AGENTS.md`, `CLAUDE.md`, and `docs/QUICKSTART.md`.
+- Core program-management skills for chartering, executive briefing, stakeholder mapping, decision memos, RAID management, and chief-of-staff style briefing.
+- Specialist agents for executive summarization, risk triage, and daily PM briefing.
+- Reusable command prompts for common PM workflows.
+- Markdown templates and worked examples for practical PM artifacts.
+- JSON schemas for structured RAID rows and decision-memo frontmatter.
+- `pmkit` Python utility package for validating supported structured artifacts.
+- Example data under `examples/data/` for validated RAID and decision-memo workflows.
+- Regression tests for schema validation and CLI behavior.
+- CI workflow that runs tests and validates bundled examples across supported Python versions.
+- Public-release checklist for sanitization and release-readiness review.
+- Repository-specific security and contribution policies.
+
+### Notes
+
+This is a foundation release, not a finished PM operating system. The repo is intended as a reusable artifact-generation and validation layer beside existing tools such as Jira, Asana, Excel, Confluence, or similar systems of record.
+
+### Next
+
+- Add richer worked examples for stakeholder maps and decision memos.
+- Add one additional structured schema for a charter or executive brief.
+- Add optional CSV import/export helpers for RAID data.
+- Add simple formatting helpers for validated artifacts.
