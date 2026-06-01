@@ -12,7 +12,7 @@ This repository packages repeatable PM work into reusable agents, skills, templa
 
 **Foundation release.**
 
-This repository now includes a working entry layer, core skills, specialist agents, practical templates, commands, worked examples, JSON schemas, a small `pmkit` validation CLI, and automated CI checks for the packaged utility layer.
+This repository includes a working entry layer, core skills, specialist agents, practical templates, commands, worked examples, JSON schemas, a small `pmkit` validation CLI, and automated CI checks for the packaged utility layer.
 
 It is still early, but it is no longer an incubation placeholder.
 
@@ -28,6 +28,19 @@ Use this repository when you need help producing structured PM artifacts such as
 - daily chief-of-staff style PM briefs
 
 Do **not** use this repository as your system of record for project execution. It is the artifact-generation and validation layer that sits beside Jira, Asana, Excel, Confluence, or similar tools.
+
+## Public-safe use rule
+
+Use fictional, generic, or fully sanitized examples in this repository.
+
+Do not publish:
+
+- real employer, customer, vendor, supplier, or colleague information
+- confidential project names, roadmaps, escalations, or delivery risks
+- internal steering materials or executive communications
+- real RAID logs, decision memos, or stakeholder maps
+- private performance, HR, legal, procurement, or financial information
+- non-public product details, architecture, defects, launch gates, or audit findings
 
 ## What is included now
 
@@ -111,6 +124,7 @@ pmkit validate decision-memo examples/data/decision-memo.md
 - **Executive clarity**: outputs should surface the answer early.
 - **Auditability**: assumptions, decisions, owners, and risks should stay traceable.
 - **Honest maturity**: this repo should only claim what is actually shipped.
+- **Public-safe examples**: examples should teach structure without exposing private work.
 
 ## Next maturity step
 
@@ -120,13 +134,20 @@ The next release should add:
 2. a small formatter for RAID JSON and memo frontmatter
 3. optional CSV import and export helpers for RAID data
 4. one additional structured schema for charter frontmatter or executive briefs
+5. a public-safety review checklist before any real artifact is adapted into an example
 
 ## Relationship to adjacent repos
 
 - `lean-ai-ops` complements this repo for process-improvement framing and DMAIC thinking.
 - `decision-journal-agent` complements this repo for decision tracking over time.
 - `ai-platform-pm-playbook` complements this repo with writing-heavy PM guidance.
-- `job-search-command-center` applies similar operating discipline in a different workflow domain.
+- `governance-playbook` complements this repo with AI governance operating-model design.
+
+## Scope and disclaimer
+
+This repository is shared in a personal capacity. It is not project, legal, HR, procurement, financial, compliance, or employment advice.
+
+The templates, agents, and skills are practitioner aids. Adapt them to your organization, project context, stakeholders, governance model, and review process before use.
 
 ---
 
