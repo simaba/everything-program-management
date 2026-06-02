@@ -39,7 +39,7 @@ If you discover a security issue or safety-relevant problem, please do **not** d
 Preferred options:
 
 1. Use GitHub Private Vulnerability Reporting if it is available for the repository.
-2. If private reporting is not available, open a minimal issue titled `[SECURITY] Private reporting request` without exploit details, or contact **bagherisima@gmail.com** with a concise summary and a request for a private channel.
+2. If private reporting is not available, open a minimal issue titled `[SECURITY] Private reporting request` without exploit details, or contact the maintainer through the public channels listed on the GitHub profile.
 
 Please include, where possible:
 
