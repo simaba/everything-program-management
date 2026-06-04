@@ -8,15 +8,15 @@ A structured harness toolkit for program managers, delivery leads, chiefs of sta
 
 This repository packages repeatable PM work into reusable agents, skills, templates, examples, schemas, and lightweight validation utilities so the work is faster, more consistent, and easier to review.
 
-## Status
+## Maturity
 
 **Foundation release.**
 
 This repository includes a working entry layer, core skills, specialist agents, practical templates, commands, worked examples, JSON schemas, a small `pmkit` validation CLI, and automated CI checks for the packaged utility layer.
 
-It is still early, but it is no longer an incubation placeholder.
+It is early, but it is no longer an incubation placeholder.
 
-## Choose this repo when
+## Purpose
 
 Use this repository when you need help producing structured PM artifacts such as:
 
@@ -27,9 +27,9 @@ Use this repository when you need help producing structured PM artifacts such as
 - decision memos
 - daily chief-of-staff style PM briefs
 
-Do **not** use this repository as your system of record for project execution. It is the artifact-generation and validation layer that sits beside Jira, Asana, Excel, Confluence, or similar tools.
+This is not a system of record for project execution. It is an artifact-generation and validation layer that sits beside Jira, Asana, Excel, Confluence, or similar tools.
 
-## Public-safe use rule
+## Publication safety
 
 Use fictional, generic, or fully sanitized examples in this repository.
 
@@ -42,11 +42,11 @@ Do not publish:
 - private performance, HR, legal, procurement, or financial information
 - non-public product details, architecture, defects, launch gates, or audit findings
 
-## What is included now
+## Current capabilities
 
-| Surface | Included now | Purpose |
+| Surface | Included | Purpose |
 |---|---|---|
-| **Root entry layer** | `AGENTS.md`, `CLAUDE.md` | Tells a harness or human where to start and how the repo is structured |
+| **Root entry layer** | `AGENTS.md`, `CLAUDE.md` | Tells a harness or human where to start and how the repository is structured |
 | **Skills** | multiple | Core methods for chartering, executive briefing, stakeholder mapping, decision memos, RAID management, and chief-of-staff briefing |
 | **Agents** | 3 | Focused roles for executive summarization, risk triage, and daily PM briefing |
 | **Commands** | multiple | Reusable command prompts for common PM workflows |
@@ -55,7 +55,7 @@ Do not publish:
 | **Schemas** | 2 | JSON schemas for RAID rows and decision-memo frontmatter |
 | **Utility layer** | `pmkit` CLI | Validates structured artifacts against bundled schemas |
 | **Automation** | CI workflow | Runs tests and validates bundled example artifacts automatically |
-| **Docs and rules** | included | Quickstart and always-on writing rules |
+| **Docs and rules** | included | Quick-start guidance and always-on writing rules |
 
 ## Repository structure
 
@@ -75,7 +75,7 @@ tests/
 .github/workflows/
 ```
 
-## Included skill families
+## Skill families
 
 | Skill family | What it helps produce |
 |---|---|
@@ -123,10 +123,10 @@ pmkit validate decision-memo examples/data/decision-memo.md
 - **Reusable over ornamental**: templates and methods should be easy to adapt.
 - **Executive clarity**: outputs should surface the answer early.
 - **Auditability**: assumptions, decisions, owners, and risks should stay traceable.
-- **Honest maturity**: this repo should only claim what is actually shipped.
+- **Honest maturity**: this repository should only claim what is actually shipped.
 - **Public-safe examples**: examples should teach structure without exposing private work.
 
-## Next maturity step
+## Roadmap
 
 The next release should add:
 
@@ -134,14 +134,14 @@ The next release should add:
 2. a small formatter for RAID JSON and memo frontmatter
 3. optional CSV import and export helpers for RAID data
 4. one additional structured schema for charter frontmatter or executive briefs
-5. a public-safety review checklist before any real artifact is adapted into an example
+5. a publication-safety review checklist before any real artifact is adapted into an example
 
-## Relationship to adjacent repos
+## Related repositories
 
-- `lean-ai-ops` complements this repo for process-improvement framing and DMAIC thinking.
-- `decision-journal-agent` complements this repo for decision tracking over time.
-- `ai-platform-pm-playbook` complements this repo with writing-heavy PM guidance.
-- `governance-playbook` complements this repo with AI governance operating-model design.
+- `lean-ai-ops` complements this repository with process-improvement framing and DMAIC thinking.
+- `decision-journal-agent` complements this repository with decision tracking over time.
+- `ai-platform-pm-playbook` complements this repository with AI platform PM guidance.
+- `governance-playbook` complements this repository with AI governance operating-model design.
 
 ## Scope and disclaimer
 
