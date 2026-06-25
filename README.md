@@ -6,15 +6,21 @@
 
 A structured harness toolkit for program managers, delivery leads, chiefs of staff, and PMO-style operators.
 
-This repository packages repeatable PM work into reusable agents, skills, templates, examples, schemas, and lightweight validation utilities so the work is faster, more consistent, and easier to review.
+This repository packages repeatable PM work into reusable agents, skills, templates, examples, schemas, and lightweight validation utilities so work is faster, more consistent, and easier to review.
 
 ## Maturity
 
 **Foundation release.**
 
-This repository includes a working entry layer, core skills, specialist agents, practical templates, commands, worked examples, JSON schemas, a small `pmkit` validation CLI, and automated CI checks for the packaged utility layer.
+The repository includes a working entry layer, core skills, specialist agents, practical templates, commands, worked examples, JSON schemas, a small `pmkit` validation CLI, and automated CI checks for the packaged utility layer.
 
 It is early, but it is no longer an incubation placeholder.
+
+### Public release materials
+
+- [Public Release Checklist](docs/PUBLIC_RELEASE_CHECKLIST.md): final repository/history/Actions review before visibility changes.
+- [Draft v0.1.0 release notes](docs/releases/v0.1.0.md): intended published scope and release record.
+- [Changelog](CHANGELOG.md): user-visible version history.
 
 ## Purpose
 
@@ -51,8 +57,8 @@ Do not publish:
 | **Agents** | 3 | Focused roles for executive summarization, risk triage, and daily PM briefing |
 | **Commands** | multiple | Reusable command prompts for common PM workflows |
 | **Templates** | multiple | Reusable markdown artifacts |
-| **Examples** | multiple | Worked examples for practical PM outputs and validated example data |
-| **Schemas** | 2 | JSON schemas for RAID rows and decision-memo frontmatter |
+| **Examples** | multiple | Worked fictional examples and validated example data |
+| **Schemas** | 2 | JSON schemas for structured RAID rows and decision-memo frontmatter |
 | **Utility layer** | `pmkit` CLI | Validates structured artifacts against bundled schemas |
 | **Automation** | CI workflow | Runs tests and validates bundled example artifacts automatically |
 | **Docs and rules** | included | Quick-start guidance and always-on writing rules |
@@ -100,14 +106,14 @@ tests/
 2. Start with [`AGENTS.md`](AGENTS.md).
 3. Pick the closest command or skill for the artifact you need.
 4. Use the relevant template.
-5. Compare your draft to the worked examples before sending.
+5. Compare your draft to the fictional worked examples before sending.
 
 ## Validate structured artifacts
 
 The bundled `pmkit` CLI validates two artifact types today:
 
 - RAID rows stored as JSON
-- decision memo frontmatter stored in Markdown
+- decision-memo frontmatter stored in Markdown
 
 Install and run:
 
@@ -134,7 +140,7 @@ The next release should add:
 2. a small formatter for RAID JSON and memo frontmatter
 3. optional CSV import and export helpers for RAID data
 4. one additional structured schema for charter frontmatter or executive briefs
-5. a publication-safety review checklist before any real artifact is adapted into an example
+5. broader publication-safety review before any real artifact is adapted into an example
 
 ## Related repositories
 
