@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 from pmkit.cli import main
-from pmkit.validators import validate_json_file, validate_markdown_frontmatter
+from pmkit.validators import _split_frontmatter, validate_json_file, validate_markdown_frontmatter
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,6 +23,15 @@ def test_valid_decision_memo_example_passes() -> None:
         SCHEMAS / "decision-memo-frontmatter.schema.json",
     )
     assert errors == []
+
+
+def test_frontmatter_iso_dates_remain_schema_compatible_strings() -> None:
+    payload, _body = _split_frontmatter(
+        "---\ndecision_date: 2026-04-26\n---\n\nExample body\n"
+    )
+
+    assert payload["decision_date"] == "2026-04-26"
+    assert isinstance(payload["decision_date"], str)
 
 
 def test_invalid_raid_example_fails(tmp_path) -> None:
