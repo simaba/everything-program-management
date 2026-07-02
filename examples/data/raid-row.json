@@ -1,14 +1,14 @@
 {
   "id": "R-0001",
   "type": "risk",
-  "title": "Steering milestone may slip due to unresolved supplier dependency",
+  "title": "Planned milestone may slip due to an unresolved external dependency",
   "status": "mitigating",
   "severity": 4,
-  "owner": "Sima Bagheri",
+  "owner": "Fictional Delivery Lead",
   "due_date": "2026-05-15",
-  "summary": "Supplier API readiness remains uncertain and could delay the steering package if interface decisions are not closed this week.",
-  "impact": "Steering decision and downstream integration planning could slip by one cycle.",
-  "mitigation": "Escalate interface decision by Wednesday, confirm fallback scope, and track supplier response daily.",
+  "summary": "A fictional integration dependency remains uncertain and could delay a planned decision package if interface assumptions are not closed during the current review cycle.",
+  "impact": "The planned decision and downstream integration work could slip by one review cycle.",
+  "mitigation": "Confirm the interface decision, define a fictional fallback scope, and review the dependency status on a fixed cadence.",
   "last_updated": "2026-04-26",
   "linked_decision_id": "DM-0001"
 }

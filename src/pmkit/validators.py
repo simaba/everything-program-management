@@ -8,6 +8,20 @@ import yaml
 from jsonschema import Draft202012Validator
 
 
+class _FrontmatterLoader(yaml.SafeLoader):
+    """Safe loader that keeps ISO-looking dates as strings for JSON Schema."""
+
+
+_FrontmatterLoader.yaml_implicit_resolvers = {
+    first_char: [
+        resolver
+        for resolver in resolvers
+        if resolver[0] != "tag:yaml.org,2002:timestamp"
+    ]
+    for first_char, resolvers in yaml.SafeLoader.yaml_implicit_resolvers.items()
+}
+
+
 def _load_schema(schema_path: str | Path) -> dict[str, Any]:
     path = Path(schema_path)
     return json.loads(path.read_text(encoding="utf-8"))
@@ -19,7 +33,7 @@ def _build_validator(schema_path: str | Path) -> Draft202012Validator:
 
 def _format_errors(errors: list[Any]) -> list[str]:
     lines: list[str] = []
-    for error in sorted(errors, key=lambda e: list(e.absolute_path)):
+    for error in sorted(errors, key=lambda item: list(item.absolute_path)):
         location = ".".join(str(part) for part in error.absolute_path) or "<root>"
         lines.append(f"{location}: {error.message}")
     return lines
@@ -41,13 +55,16 @@ def _split_frontmatter(markdown_text: str) -> tuple[dict[str, Any], str]:
 
     frontmatter_text = parts[0][4:]
     body = parts[1]
-    payload = yaml.safe_load(frontmatter_text) or {}
+    payload = yaml.load(frontmatter_text, Loader=_FrontmatterLoader) or {}
     if not isinstance(payload, dict):
         raise ValueError("Markdown frontmatter must parse to an object")
     return payload, body
 
 
-def validate_markdown_frontmatter(data_path: str | Path, schema_path: str | Path) -> list[str]:
+def validate_markdown_frontmatter(
+    data_path: str | Path,
+    schema_path: str | Path,
+) -> list[str]:
     payload, _body = _split_frontmatter(Path(data_path).read_text(encoding="utf-8"))
     validator = _build_validator(schema_path)
     return _format_errors(list(validator.iter_errors(payload)))
