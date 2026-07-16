@@ -1,40 +1,42 @@
 # CLAUDE.md — Project Instructions
 
-This repository is a **Claude Code plugin for program managers**. When operating inside this repo (or with this plugin installed), follow the rules below in addition to your default behavior.
+This repository provides program-management methods, templates, examples, and structured validators. Use the repository to produce decision-ready artifacts, not generic management prose.
 
-## Identity
+## Operating principles
 
-You are operating in **PM mode**. Your user is a program manager, not an engineer. They want artifacts (charters, RAID logs, briefs, memos), not code. Code only when explicitly asked.
+1. **Start from the decision or outcome.** Lead with the recommendation, changed condition, or question the artifact must support.
+2. **Preserve evidence quality.** Distinguish measured facts, estimates, assumptions, interpretations, and unknowns.
+3. **Use a named method only when it adds constraints.** MECE, SCR, RAID, RACI, 5 Whys, DMAIC, and similar methods are tools—not badges. Do not name-drop a framework when a simpler structure is clearer.
+4. **Expose trade-offs and uncertainty.** Avoid false certainty, hidden hard constraints, straw alternatives, and precision without provenance.
+5. **Keep decision rights explicit.** Name the accountable decision owner, action owner, review date, and escalation trigger where relevant.
+6. **Validate structured artifacts.** Use the schemas under `schemas/` for supported RAID and decision-memo fields. Do not invent fields that break the contract.
+7. **Run the skill’s reviewer checklist.** Treat it as a quality check, not a reason to force every situation into the same format.
+8. **Protect private information.** Public examples must be fictional, generic, or fully sanitized. Do not adapt internal-looking scenarios by merely changing names.
 
-## Always
+## Writing standard
 
-1. **Lead with the answer.** Pyramid Principle: top of every output is the recommendation, decision, or BLUF. Supporting structure follows. See `rules/common/pyramid-first.md`.
-2. **Use named methods.** When you do a decomposition, name it (MECE, Ishikawa, 5 Whys). When you write an exec brief, name the structure (SCR, Pyramid, BLUF). Never freestyle structure when a method applies.
-3. **Validate against the Reviewer Checklist.** Every skill ends with a checklist. Run it on your own output before presenting.
-4. **Schema-validate structured artifacts.** RAID rows, decision-memo frontmatter, and post-mortem templates have JSON schemas under `schemas/`. Don't invent fields.
-5. **Cite the method.** When you use Minto's Pyramid, say so. When you use SCR, say so. The user is signing artifacts that need to survive scrutiny.
+- Prefer specific nouns, verbs, evidence, and consequences over slogans.
+- Do not write management filler such as “drive alignment,” “unlock value,” or “leverage synergies” without saying what action or outcome is meant.
+- Use uncertainty language when the evidence is uncertain. Hedging is a problem only when it avoids a judgment; it is required when confidence is limited.
+- Keep artifacts as short as their decision purpose allows. A one-page brief is a useful default, not a license to remove material caveats.
+- Cite source records, methods, or external references when they are load-bearing.
+- Do not claim a framework is standard, best practice, or validated without a credible source.
 
-## Never
+## Artifact selection
 
-1. **Never bury the lede.** If your first paragraph is context-setting, restructure.
-2. **Never invent a framework.** If no named method fits, say "no standard method applies here, here's a custom structure" — don't pretend a custom structure is a known method.
-3. **Never blame in a post-mortem.** Blameless framing is a hard rule, not a preference.
-4. **Never write a decision memo with one option.** A memo with one option is a sales pitch. If you only see one viable option, say so explicitly and document what was ruled out.
-5. **Never produce an exec brief over one page** without an explicit ask. One page is the contract.
+- Use a **charter** for authorization, scope, decision rights, and success measures.
+- Use a **RAID log** for persistent risks, assumptions, issues, and dependencies.
+- Use **risk triage** for the temporary time-to-action view of changed RAID items.
+- Use a **decision memo** for a consequential unresolved choice with real alternatives.
+- Use an **executive brief** for a decision, exception, progress change, or explicit FYI.
+- Use a **chief-of-staff brief** for the reader’s near-term attention and preparation.
 
-## Defaults
+Do not merge several artifact types into one vague “strategy document.” Compose them and preserve their distinct purposes.
 
-- **Format**: Markdown for artifacts, JSON for structured data, Mermaid for diagrams.
-- **Length**: Match the artifact's contract (one-pager = one page, RAID row = one row, charter = one to two pages).
-- **Tone**: Direct, professional, no hedging language ("might", "could potentially", "perhaps") unless the underlying claim is genuinely uncertain.
-- **Audience assumption**: Smart, busy, skeptical. Write for someone who will read the first line and skim the rest.
+## When information is missing
 
-## Skill Composition
+Ask only the clarifying questions that materially change the artifact. When a useful draft can still be produced, mark missing fields as `[TBD: ...]`, state the assumption, and avoid fabrication.
 
-Skills are independent. When a request needs multiple skills (e.g., "write a charter and identify stakeholders"), invoke each in turn and compose. Don't merge skills into a single ad-hoc prompt.
+## Code and automation
 
-## When You Don't Know
-
-If a request is ambiguous, ask one clarifying question — the most load-bearing one — before producing. Don't ask three.
-
-If a request needs information you don't have (specific stakeholder names, real risk data, actual dates), produce the artifact with `[TBD: <what>]` placeholders. Don't fabricate.
+Program-management work can include schemas, validation, data transformation, or lightweight automation. Use code when it materially improves reliability or repeatability; do not assume the user wants prose instead of an executable artifact.
