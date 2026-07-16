@@ -1,162 +1,138 @@
 ---
 name: stakeholder-mapping
 description: >-
-  Build a stakeholder map for a program or decision — power/interest
-  grid (Mendelow), RACI for specific deliverables, and an influence
-  path showing who needs to be convinced in what order. Also flags
-  hostile stakeholders, missing advocates, and "RACI pollution"
-  (everyone is Consulted).
-  TRIGGER when: user asks "who needs to know", "stakeholder map",
-  "RACI", "power interest grid", "who should I talk to first", or is
-  facing a contentious decision that needs sequencing.
-  DO NOT TRIGGER when: user just wants a distribution list (use a
-  team roster) or wants to draft a message (use chief-of-staff-brief).
+  Build a stakeholder analysis for a program or decision using power,
+  interest, impact, legitimacy, and decision-role lenses. Produces an
+  engagement plan, a deliverable-specific responsibility matrix, and a
+  transparent decision path without treating stakeholder management as persuasion theater.
+  TRIGGER when: the user needs to identify affected groups, decision rights,
+  consultation order, or communication responsibilities.
+  DO NOT TRIGGER when: the user only needs a distribution list or a message draft.
 origin: community
 ---
 
 # Stakeholder Mapping
 
-Produce a structured map of the humans around a program: who they are, how much power and interest they have, what role they play on specific deliverables, and in what order you should engage them.
+A stakeholder map should improve decision quality and participation, not merely identify whom to “win over.” It should show:
 
-## When to Use
+- who can authorize, block, shape, implement, or be materially affected;
+- what information each party needs and when;
+- where representation or user voice is missing;
+- which decisions require consultation, consent, notice, or formal approval;
+- how disagreement will be surfaced rather than hidden.
 
-- Kickoff of any cross-functional program.
-- Before a contentious decision where approval ordering matters.
-- When inheriting a program and needing to know who's actually in play.
-- When a decision has stalled — usually because a power-high, interest-high stakeholder was missed.
+## Use three complementary views
 
-**Do not use** for routine distribution-list maintenance or when "stakeholder" just means "attendee."
+### 1. Stakeholder analysis
 
-## Three Artifacts
+Power and interest are useful but incomplete. Add impact and legitimacy so low-power affected groups do not disappear from the analysis.
 
-### 1. Power / Interest Grid (Mendelow, 1991)
+| Dimension | Question |
+|---|---|
+| **Decision authority** | Can this stakeholder approve, veto, fund, or stop the work? |
+| **Operational influence** | Can they materially shape delivery, adoption, or quality? |
+| **Interest** | How closely do they follow the outcome? |
+| **Impact** | How strongly are they affected if the program succeeds or fails? |
+| **Legitimacy / standing** | Do they have a formal, legal, ethical, or representative claim to participation? |
+| **Current position** | supportive, conditional, undecided, concerned, opposed, unknown |
+| **Evidence need** | What information would let them evaluate the proposal responsibly? |
 
-Plot each stakeholder on two axes. Four quadrants, four strategies:
+Use a power/interest grid only as a communication-frequency aid. It should not override impact, rights, or required consultation.
 
-```
-          HIGH POWER
-             │
-  Keep       │       Manage
-  Satisfied  │       Closely
-     (A)     │         (B)
- ────────────┼──────────────── HIGH INTEREST →
-             │
-  Monitor    │       Keep
-             │       Informed
-     (D)     │         (C)
-             │
-         LOW POWER
-```
+### 2. Responsibility matrix
 
-- **(A) Keep Satisfied** — High power, low interest. Don't burn their time, but if they turn against the program, they kill it. Quarterly updates, no surprises.
-- **(B) Manage Closely** — High power, high interest. Primary sponsors and blockers. Regular 1:1s, early sight of material.
-- **(C) Keep Informed** — Low power, high interest. Teams affected by the program. Transparency and regular updates; their goodwill compounds.
-- **(D) Monitor** — Low power, low interest. Awareness-only. A standing email DL is sufficient.
+Use RACI or a similar model only for a specific deliverable or decision. A program-wide RACI with dozens of rows and columns usually creates false clarity.
 
-### 2. RACI Matrix (for specific deliverables)
+- **Responsible:** performs the work.
+- **Accountable:** owns the result or decision; normally one per row.
+- **Consulted:** provides input before completion.
+- **Informed:** receives the result or decision.
 
-For each major deliverable, each stakeholder gets exactly one of:
+Add other roles when the situation demands them—for example **Approver**, **Reviewer**, **Control owner**, or **Affected representative**—rather than forcing every responsibility into RACI.
 
-- **R** (Responsible) — does the work
-- **A** (Accountable) — signs off, one-per-deliverable
-- **C** (Consulted) — input before the work is done
-- **I** (Informed) — told after the work is done
+### 3. Decision path
 
-Three hard rules:
-1. **Exactly one A per row.** If there are two, it's not decided yet.
-2. **R and A can be the same person** for small items. For large items, keep separate.
-3. **Cap C at 3** per row unless you can justify why four opinions are needed. "RACI pollution" — everyone marked C — is a failure mode.
+Sequence the work needed to make a legitimate decision:
 
-### 3. Influence Path (for a specific decision)
+1. gather evidence and affected-user input;
+2. resolve technical and operational feasibility questions;
+3. complete required control reviews;
+4. expose unresolved trade-offs to the decider;
+5. record the decision and communicate consequences.
 
-Order the stakeholders you need to convince, with a one-line reason:
+This is not a covert influence plan. Material objections, dissent, and affected-group concerns should remain visible in the decision record.
 
-```
-1. Priya (VP Eng) — shapes the technical feasibility view; if she's skeptical, nothing else matters
-2. Maria (CFO) — once Priya is soft-yes, Maria needs the cost picture
-3. David (CEO) — only asks him to sign after Priya and Maria are aligned
-4. Regional heads — inform after the decision, work the rollout
-```
+## Worked example: fictional library metadata pilot
 
-This prevents the anti-pattern of asking for a decision at a forum where one key stakeholder is going to torpedo it because they weren't prepped.
+All names, organizations, systems, and dates below are invented.
 
-## How It Works
+### Stakeholder analysis
 
-1. **Brainstorm the list.** Every person or role touched by the program. Don't filter yet.
-2. **For each, assign power and interest** on a 1–5 scale each. Power = ability to affect the program (approve budget, block a dependency, veto a decision). Interest = how much they care about the outcome.
-3. **Plot on the grid.** Which quadrant?
-4. **Identify missing advocates.** In quadrant B (manage closely), do you have at least one strong advocate? If not, flag as a risk.
-5. **Identify hostile high-power stakeholders.** Anyone in A or B who is currently negative? Flag and plan.
-6. **Build RACI** for each major deliverable — only for ones with real handoffs.
-7. **For any active decision, build the influence path.**
+| Stakeholder | Authority | Impact | Current position | Evidence need | Engagement |
+|---|---|---:|---|---|---|
+| Executive sponsor | Approves pilot scope and funding | Medium | Conditional support | cost, schedule, residual risk | Decision memo at two stage gates |
+| Library operations lead | Owns catalog operations | High | Supportive | recovery process, training effort | Weekly working review |
+| Data protection reviewer | Can block restricted-data flows | High | Undecided | data-flow diagram, deletion test, contract terms | Early control review; written disposition |
+| Accessibility reviewer | Can withhold readiness recommendation | High | Concerned | keyboard, screen-reader, language results | Test-plan review before pilot |
+| Archive staff representatives | No formal approval authority | High | Mixed | workload change, error-handling path | Two structured workshops; record dissent |
+| Managed-service provider | Delivers external processing | Medium | Supportive | interface decisions, test schedule | Technical checkpoints; no internal decision role |
+| Pilot users | No budget authority | High | Unknown | usability, correction path, support model | Representative research and feedback sessions |
 
-## Examples
+### Responsibility matrix for pilot-readiness decision
 
-### Power / Interest output
+| Deliverable | Product owner | Platform lead | Operations lead | Privacy reviewer | Accessibility reviewer | Sponsor |
+|---|---|---|---|---|---|---|
+| Pilot scope | R | C | C | C | C | A |
+| Data-flow and deletion evidence | C | R | I | A | I | I |
+| Operational recovery plan | C | C | A/R | I | I | I |
+| Accessibility test report | C | C | C | I | A/R | I |
+| Final pilot recommendation | R | C | C | C | C | A |
 
-```
-| Stakeholder | Role | Power | Interest | Quadrant | Strategy |
-|---|---|---|---|---|---|
-| Priya | VP Eng | 5 | 5 | Manage Closely | Weekly 1:1; draft review before dist |
-| Maria | CFO | 5 | 3 | Keep Satisfied | Monthly update; no budget surprises |
-| David | CEO | 5 | 2 | Keep Satisfied | Quarterly; one-pager only |
-| Marcus | Legal | 3 | 4 | Keep Informed | Bi-weekly; early draft of regulated content |
-| Chen | Eng Lead APAC | 3 | 5 | Keep Informed | Weekly update; field ops detail |
-| Support leads (x3) | Ops | 2 | 3 | Monitor | Standing email; no standing meeting |
-```
+### Decision path
 
-### RACI for a specific deliverable
+1. **Archive staff and pilot users:** validate workflow impact and correction needs.
+2. **Platform and operations leads:** close feasibility and recovery questions.
+3. **Privacy and accessibility reviewers:** issue written control dispositions.
+4. **Product owner:** assemble options, residual risks, and recommendation.
+5. **Executive sponsor:** decide pilot scope and conditions.
+6. **All affected groups:** receive the decision, rationale, and escalation path.
 
-```
-Deliverable: EU AI Act conformity assessment submission
+## How to use the map
 
-| Task | Priya | Marcus | Sima | Maria |
-|---|---|---|---|---|
-| Technical documentation | A, R | C |  |  |
-| Legal review | C | A, R |  |  |
-| Program coordination | I | C | A, R |  |
-| Budget sign-off |  | I | C | A |
-| Exec communication |  | I | R | C |
-```
+1. Start from decisions and affected outcomes, not an organization chart.
+2. Identify people or groups with authority, operational influence, impact, or legitimate standing.
+3. Record the current position as evidence, not assumption. Use `unknown` when you have not asked.
+4. Define what each stakeholder needs to make a responsible contribution.
+5. Use a responsibility matrix only where handoffs or approvals are genuinely ambiguous.
+6. Design consultation before the decision deadline; avoid asking for input after the answer is effectively fixed.
+7. Preserve material dissent in the decision record.
+8. Revisit the map when scope, evidence, leadership, or affected populations change.
 
-Rows check: each has exactly one A. Cs are limited. No RACI pollution.
+## Reviewer checklist
 
-### Influence Path for a hard decision
+- [ ] The map includes materially affected groups, not only powerful approvers.
+- [ ] Formal authority and informal influence are distinguished.
+- [ ] Current positions are based on evidence or marked unknown.
+- [ ] Required consultation, approval, and notice are separated.
+- [ ] Responsibility matrices are deliverable-specific and have a clear accountable role.
+- [ ] The decision path includes evidence and control review, not only executive pre-alignment.
+- [ ] Material objections and dissent remain visible.
+- [ ] Engagement frequency is proportional to decision need, not status hierarchy alone.
 
-> **Decision**: Should we pause Japan launch given the regulatory delay?
->
-> 1. **Kenji (Country Lead Japan)** — owns the P&L; if he argues for pause, everyone else will follow
-> 2. **Priya (VP Eng)** — second opinion on whether we can deliver on the revised timeline
-> 3. **Marcus (Legal)** — confirms regulatory risk is material, not just procedural
-> 4. **Maria (CFO)** — confirms financial impact is absorbable
-> 5. **David (CEO)** — signs once the above four are aligned; only then
-> 6. **Regional teams + press team** — informed after, rollout
->
-> **Forums**: Take Kenji 1:1 this week. Priya + Marcus in a prep session next week. Maria in one-on-one with pre-read. David in exec staff meeting with written recommendation.
-
-## Reviewer Checklist
-
-- [ ] Every high-power stakeholder is on the grid with a strategy.
-- [ ] At least one advocate exists in "Manage Closely" for major initiatives.
-- [ ] Every hostile high-power stakeholder has a plan.
-- [ ] Each RACI row has exactly one A.
-- [ ] No RACI row has more than 3 Cs without explicit justification.
-- [ ] Influence path is ordered, with a reason per step.
-- [ ] "Monitor" quadrant is not loaded with people who actually belong in "Keep Informed."
-
-## Common Failure Modes
+## Common failure modes
 
 | Failure | Repair |
 |---|---|
-| All stakeholders rated Power 5 | Recalibrate; not everyone can veto. |
-| "Team" or "leadership" as a stakeholder | Decompose to named humans. |
-| RACI with multiple As per row | Decide, or acknowledge the decision isn't clear yet. |
-| RACI where everyone is C | Cap C at 3; justify each. |
-| No influence path for contentious decisions | Build one before the next forum; otherwise the decision will stall. |
+| Only senior leaders appear | Add affected users, operators, reviewers, and representatives with legitimate standing. |
+| “Manage closely” becomes manipulation | Define the evidence, decision role, and transparent engagement needed. |
+| Position is guessed from reputation | Ask, document, or mark unknown. |
+| RACI contains multiple accountable parties | Split the deliverable or identify the actual decision owner. |
+| Everyone is consulted on everything | Tie consultation to a specific decision or artifact. |
+| Engagement begins after the preferred option is fixed | Move consultation earlier and record how input changes the option set. |
 
-## Source
+## Sources
 
-- A. Mendelow, "Stakeholder mapping", Proceedings 2nd International Conference on Information Systems, 1991 (power/interest grid).
-- PMI *PMBOK*, Stakeholder Management.
-- R. Freeman, *Strategic Management: A Stakeholder Approach* (1984) — foundational text.
-- RACI as standardized in BABOK and PMI PMBOK.
+- R. Edward Freeman, *Strategic Management: A Stakeholder Approach*.
+- Mitchell, Agle, and Wood, “Toward a Theory of Stakeholder Identification and Salience,” for power, legitimacy, and urgency.
+- PMI stakeholder-management guidance.
+- Mendelow-style power/interest mapping, used here as one lens rather than a complete model.
