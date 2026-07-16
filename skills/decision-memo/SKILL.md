@@ -1,208 +1,206 @@
 ---
 name: decision-memo
 description: >-
-  Draft a decision memo — a structured document that presents a
-  question, ≥2 viable options, evaluation criteria, a recommendation,
-  and the consequences of each path. Enforces the "no single-option
-  memo" rule and surfaces ruled-out options explicitly. Output
-  validates against schemas/decision-memo-frontmatter.json.
-  TRIGGER when: user says "decision memo", "options doc", "make the
-  call", "we need to decide X", or describes a pending decision that
-  has more than one reasonable path.
-  DO NOT TRIGGER when: there is no real decision pending (use a
-  status update) or the decision is purely operational and has no
-  strategic tradeoff (use a task).
+  Draft a decision memo that presents a clear question, at least two
+  genuinely viable options, decision criteria, a recommendation, and
+  consequences. Rejects single-option advocacy disguised as analysis and
+  validates frontmatter against schemas/decision-memo-frontmatter.json.
+  TRIGGER when: a consequential choice has more than one reasonable path,
+  the user asks for an options memo, or a decider needs a written recommendation.
+  DO NOT TRIGGER when: there is no unresolved choice, the work is a routine task,
+  or the decision has already been made and only needs to be logged.
 origin: community
 ---
 
 # Decision Memo
 
-Draft a one- to three-page memo that presents a decision, the real options, the criteria, a recommendation, and the consequences — in a form a busy decider can act on without a meeting.
+Write a memo that lets a named decider understand the choice, challenge the assumptions, and make the call without reconstructing the analysis from meeting history.
 
-## When to Use
+## When to use it
 
-- A decision is pending that involves a tradeoff (cost vs speed, scope vs quality, build vs buy).
-- The deciding stakeholder isn't in every working-group meeting and needs a briefing to decide.
-- You want a written artifact that preserves the rationale for a future post-mortem or audit.
-- You are proposing something that will be controversial; a written memo depersonalizes the discussion.
+Use a decision memo when:
 
-**Do not use** for status updates (use SCR), for single-path operational tasks (use a ticket), or for decisions already made (use a decision *log*, not a memo).
+- two or more viable paths produce materially different outcomes;
+- the decision crosses functions, budgets, or risk boundaries;
+- the rationale will matter later during review, audit, or reversal;
+- disagreement is partly about criteria or assumptions, not only preferences.
 
-## The Hard Rule: ≥2 Options
+Do not use it for status updates, routine execution, or decisions that have already been taken. A post-decision record is a decision log, not a decision memo.
 
-A memo with one option is not a decision memo; it is a pitch. If you believe only one option is viable, write that explicitly and document what was ruled out. The rule:
+## The non-negotiable rule: expose the real option set
 
-> If you present fewer than 2 viable options, you must include a "Ruled Out" section listing ≥2 alternatives you considered and why they failed to qualify. No exceptions.
+A memo with one viable option is a proposal. That can be legitimate, but it should not be presented as comparative analysis.
 
-This prevents the most common failure mode: the author has already decided and is performing option analysis for the record.
+Present at least two viable options. When only one path survives a hard constraint, include a **Ruled out** section that records the alternatives, the disqualifying evidence, and who confirmed the constraint.
 
-## Structure
+This distinction prevents a common failure mode: inventing weak alternatives after the preferred answer is already chosen.
+
+## Decision-quality checks before writing
+
+1. **Name the decider.** Consultation can be distributed; accountability for the decision cannot be vague.
+2. **State the deadline and cost of delay.** A decision without a decision date quietly becomes indefinite deferral.
+3. **Separate hard gates from weighted criteria.** A weighted score must not compensate for a failed legal, safety, privacy, security, or feasibility constraint.
+4. **Write criteria before scoring options.** Otherwise the criteria are easily reverse-engineered around a preferred path.
+5. **Record uncertainty.** Identify which numbers are measured, estimated, or assumed.
+6. **Mark reversibility.** A difficult-to-reverse decision deserves stronger evidence and a higher approval threshold.
+7. **Include the baseline.** “Do nothing” or “continue the current path” is often a real option and should be evaluated honestly.
+
+## Recommended structure
 
 ```markdown
 ---
 id: DM-0012
-title: "Should we pause Japan launch given the regulatory delay?"
-decider: david@example.com
-due: 2026-05-10
+title: "Which metadata-processing model should Northstar Library adopt?"
+decider: sponsor@example.test
+due: 2026-09-15
 status: draft | in_review | decided | deferred
-decided: null | 2026-05-08
-decision: null | "Option B"
+decided: null | 2026-09-12
+decision: null | "Option C"
 ---
 
-## Question
-[One sentence. A yes/no or A-vs-B framing if possible.]
+## Decision
+[One sentence. Prefer A-vs-B wording or a clearly bounded question.]
 
-## Context
-[2-3 sentences. What's the baseline? What changed?]
+## Why now
+[What changed, why a decision is required now, and the cost of delay.]
+
+## Hard constraints
+- [Constraint, source of evidence, and confirming owner]
 
 ## Criteria
-[3-5 criteria we will use to evaluate options. Weighted if appropriate.]
+| Criterion | Weight or gate | Evidence quality | Notes |
+|---|---:|---|---|
+|  |  | measured / estimated / assumed |  |
 
 ## Options
-
 ### Option A: [name]
-[Description, 2-3 sentences.]
-- **Cost**: [quantified]
-- **Speed**: [quantified]
-- **Risk**: [quantified]
-- **Reversibility**: [one-way / two-way door]
+- Description:
+- Evidence:
+- Key assumptions:
+- Reversibility:
+- Consequences:
 
 ### Option B: [name]
-[...]
+...
 
-### Option C: [name]  (optional, 3rd option)
-[...]
-
-## Ruled Out
-- [Option we considered and rejected] — [reason]
-- [Option we considered and rejected] — [reason]
+## Ruled out
+- [Option] — [disqualifying constraint and evidence]
 
 ## Recommendation
-[One paragraph. State the recommended option and the single most important reason.]
+[Recommended option, why it wins, and the most important residual risk.]
 
-## Consequences
-- **If A**: [what happens, including second-order effects]
-- **If B**: [...]
-- **If C**: [...]
+## Sensitivity and uncertainty
+[Which assumption could change the recommendation? What would trigger a revisit?]
 
-## Asks
-[What the decider needs to do: sign the memo, schedule a discussion, approve budget, etc. Be explicit.]
-
-## Open Questions
-[If any remain. Leaving this blank is suspicious — most decisions have residual uncertainty.]
+## Decision and follow-through
+- Decision owner:
+- Decision due:
+- Immediate action if approved:
+- Review trigger / review date:
 ```
 
-## How It Works
+## Worked example: fictional library metadata service
 
-1. **Sharpen the question.** One sentence, ideally yes/no. If it takes three sentences, you have multiple decisions; split them.
-2. **Write the criteria before the options.** Criteria written after options tend to be reverse-engineered to justify a preferred choice.
-3. **Brainstorm ≥4 options**, then filter to ≥2 that are genuinely viable. Put the others in "Ruled Out."
-4. **Quantify each option** on the criteria. "Cost: $38K/Q" not "Cost: moderate."
-5. **Mark reversibility explicitly** (one-way door vs two-way door — Bezos's framing). This drives the decision threshold.
-6. **Make the recommendation.** Not a summary of the options — a stance.
-7. **State consequences** of each path, including the second-order effects decision makers often miss.
-8. **State the ask** concretely: sign, approve, discuss.
-9. **Validate frontmatter** against `schemas/decision-memo-frontmatter.json`.
-10. **Log the decision** after it's made by updating `decided`, `decision`, and archiving.
+The following case is invented for this repository. The organization, costs, systems, people, and dates are fictional.
 
-## Example
+### Decision
 
-```markdown
----
-id: DM-0014
-title: "Should we run VoxOS China LLM intent classifier on-device or in-cloud?"
-decider: priya@example.com
-due: 2026-05-20
-status: draft
----
+Should the fictional **Northstar Research Library** process its public catalog metadata through a managed service, an internal platform, or a split model?
 
-## Question
-Should the VoxOS China voice-assistant intent classifier run on-device (NPU) or in the regional cloud?
+### Why now
 
-## Context
-Current voice-assistant stack routes all utterances to cloud. Latency p95 is 480ms; target is ≤ 300ms. NPU compute on the target SoC is sufficient for a 700M-param model. Cost structure differs materially between the two paths.
+The current overnight batch misses the 06:00 publication window on roughly one run in eight. A planned catalog expansion will double volume in six months. Deferring the decision preserves short-term flexibility but increases manual recovery work and makes the expansion date less credible.
 
-## Criteria
-1. **Latency (p95)** — target ≤ 300ms
-2. **Accuracy** — target ≥ 92% top-1 on China test set
-3. **Cost per vehicle per year** — target ≤ $4
-4. **Privacy** — in-cabin audio sensitivity
-5. **Update velocity** — how quickly we can ship model improvements
+### Hard constraints
 
-## Options
+- Patron records and access logs may not leave the library-controlled environment.
+- Public bibliographic metadata may be processed externally.
+- Recovery from a failed nightly run must complete within two hours.
+- The annual operating envelope is capped at fictional **$125,000**.
 
-### Option A: Cloud-only (status quo)
-- Latency: 480ms p95 (misses target by 180ms)
-- Accuracy: 94.1% (exceeds target)
-- Cost: $2.80/veh/yr (exceeds target, favorable)
-- Privacy: Audio egresses vehicle → regional cloud; regulatory exposure under PRC PIPL
-- Update velocity: Weekly (fast)
-- Reversibility: Two-way door
+### Criteria
 
-### Option B: On-device only
-- Latency: 120ms p95 (exceeds target)
-- Accuracy: 91.3% (misses target by 0.7pt on current model)
-- Cost: $0.40/veh/yr (strongly favorable)
-- Privacy: Audio stays on vehicle; PIPL exposure minimal
-- Update velocity: OTA-bound, 4–6 week cycles
-- Reversibility: One-way door (binds SoC choice for 3+ years)
+| Criterion | Weight or gate | Evidence quality |
+|---|---:|---|
+| Data boundary | Hard gate | confirmed architecture constraint |
+| 06:00 completion reliability | 30% | measured baseline; vendor result estimated |
+| Three-year total cost | 25% | estimated with stated assumptions |
+| Recovery time | 20% | proof-of-concept evidence |
+| Exit and migration effort | 15% | architecture estimate |
+| Delivery time | 10% | delivery-team estimate |
 
-### Option C: Hybrid — on-device for top 80% of intents, cloud for tail
-- Latency: 180ms p95 for on-device path, 480ms for cloud fallback
-- Accuracy: 93.7% blended
-- Cost: $1.10/veh/yr
-- Privacy: ~85% of utterances stay on-device
-- Update velocity: On-device monthly, cloud weekly
-- Reversibility: Two-way door (can tune split)
+### Options
 
-## Ruled Out
-- Third-party voice platform — evaluated and rejected; doesn't meet PIPL data-residency requirements for audio.
-- Federated learning — too early; infrastructure not ready this planning cycle.
+#### Option A: Managed service for all metadata
 
-## Recommendation
-**Option C (hybrid)**. It is the only option that meets all five criteria, preserves two-way-door optionality, and lets us ship improvements quickly via the cloud path while moving the bulk of traffic on-device.
+- **Cost:** $92,000/year.
+- **Delivery:** six weeks.
+- **Reliability:** vendor reports 99.5%; not yet verified on the fictional workload.
+- **Constraint result:** fails the patron-data boundary because the current export mixes public and restricted records.
+- **Reversibility:** medium; proprietary transformation rules would need to be rebuilt.
 
-## Consequences
-- **If A**: Miss latency target; continued PIPL exposure; no cost benefit. Likely triggers regulatory inquiry by Q4.
-- **If B**: Meet latency; accept 0.7pt accuracy drop (possibly addressable via QAT); lock in SoC choice; slow shipping cadence.
-- **If C**: Hit all targets. Added complexity in routing layer (1 eng-month) and a second accuracy model to maintain. Cloud fallback means PIPL exposure reduced but not eliminated.
+#### Option B: Build and operate internally
 
-## Asks
-- Priya: sign by May 20 or flag concerns in #program-voxos-china.
-- Finance: confirm $1.10/veh/yr cost can be absorbed in the revised gross-margin model.
-- Legal: confirm hybrid path satisfies PIPL guidance (Marcus has a draft opinion).
+- **Cost:** $158,000 in year one, then $104,000/year.
+- **Delivery:** sixteen weeks.
+- **Reliability:** controllable, but the recovery path is not yet proven.
+- **Constraint result:** passes the data boundary.
+- **Reversibility:** high at the technology level, lower at the staffing level.
 
-## Open Questions
-- Can we close the 0.7pt accuracy gap with quantization-aware training in-cycle? (Owner: Chen; answer by May 15)
-- If not, is 93.7% (hybrid) acceptable or do we need 94%+? (Owner: Priya decision in-memo)
-```
+#### Option C: Split pipeline
 
-## Reviewer Checklist
+Keep restricted records and orchestration internally; send only public bibliographic records to the managed processor.
 
-- [ ] Question is one sentence.
-- [ ] Context fits in 3 sentences.
-- [ ] Criteria are written before options and are not reverse-engineered.
-- [ ] ≥ 2 options, or an explicit "Ruled Out" section.
-- [ ] Every option is quantified on every criterion.
-- [ ] Reversibility is marked (one-way vs two-way).
-- [ ] Recommendation is a stance, not a summary.
-- [ ] Consequences include second-order effects.
-- [ ] Asks are concrete and addressed to named people.
+- **Cost:** $121,000/year including internal operations.
+- **Delivery:** ten weeks.
+- **Reliability:** proof of concept completed 99 of 100 scheduled runs before 06:00; confidence remains limited by sample size.
+- **Constraint result:** passes the data boundary when export classification succeeds.
+- **Reversibility:** medium-high because the internal canonical format is retained.
+
+### Ruled out
+
+- **Continue the current batch unchanged:** does not support the planned volume and has no credible two-hour recovery path.
+- **Replace the entire catalog platform:** broader than the decision and not justified by the metadata-processing problem.
+
+### Recommendation
+
+Choose **Option C**, subject to an independent review of the export-classification control. It is the only viable option inside the annual cost envelope that preserves the restricted-data boundary and meets the delivery window. Its main residual risk is misclassification at the internal-to-managed-service boundary.
+
+### Sensitivity and uncertainty
+
+The recommendation changes if either:
+
+- the managed service cannot contractually support deletion, audit, and exit requirements; or
+- the internal classification control cannot demonstrate an acceptably low rate of restricted-record leakage.
+
+Run a larger controlled sample and complete the contract review before committing beyond the pilot.
+
+## Reviewer checklist
+
+- [ ] The memo names one decider and one decision date.
+- [ ] The question is a single bounded choice.
+- [ ] Hard constraints are separated from weighted criteria.
+- [ ] At least two options are genuinely viable, or ruled-out alternatives have evidence.
+- [ ] The baseline / defer option is considered where relevant.
+- [ ] Every quantitative claim is marked as measured, estimated, or assumed.
+- [ ] Reversibility and exit cost are explicit.
+- [ ] The recommendation states the leading residual risk.
+- [ ] A sensitivity or revisit trigger is documented.
 - [ ] Frontmatter validates against `schemas/decision-memo-frontmatter.json`.
 
-## Common Failure Modes
+## Common failure modes
 
 | Failure | Repair |
 |---|---|
-| Single-option memo | Add a "Ruled Out" section or find the real second option. |
-| Options differ on 8 criteria, all of which favor one | Criteria were reverse-engineered. Pick 3–5 criteria *before* re-scoring. |
-| Recommendation summarizes the options | Take a stance. If you can't, the author isn't the right decision-owner. |
-| No consequences section | Add it. The decider needs second-order effects, not just first-order. |
-| "We'll revisit in 3 months" as the recommendation | Deferral is a legitimate choice; state it as "Option D: defer, with criteria for revisit." |
+| One strong option and two straw alternatives | Rebuild the option set or present a proposal with explicit disqualifiers. |
+| Weighted average overrides a failed hard constraint | Separate gates from scored criteria. |
+| Precise numbers without provenance | Mark each number measured, estimated, or assumed and cite its source. |
+| Recommendation repeats the table | State why the option wins and which residual risk remains. |
+| “Revisit later” with no trigger | Name the evidence, date, or threshold that reopens the decision. |
 
-## Source
+## Sources
 
-- Jeff Bezos, 2015 letter to shareholders — one-way vs two-way doors framing.
-- Amazon's internal six-pager / PR-FAQ culture — memos over decks.
-- Alex Komoroske's memo on decision-making; Shreyas Doshi's writing on PM decision quality.
-- Andy Grove, *High Output Management* — "staff meetings" decision framing.
+- Barbara Minto, *The Pyramid Principle*, for answer-first written structure.
+- Annie Duke, *How to Decide*, for separating decision quality from outcome quality and recording uncertainty.
+- Jeff Bezos, 2015 shareholder letter, for the one-way-door / two-way-door distinction.
+- Andy Grove, *High Output Management*, for decision leverage and management by exception.
