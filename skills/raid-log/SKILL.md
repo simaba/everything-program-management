@@ -31,7 +31,7 @@ Each structured row validates against `schemas/raid-row.json`.
 
 ```yaml
 id: RAID-0042
-kind: risk | assumption | issue | dependency
+type: risk | assumption | issue | dependency
 title: "One-line statement of the condition or event"
 description: "Context, affected objective, and why this belongs in the log"
 category: scope | schedule | cost | quality | resource | external
@@ -102,7 +102,7 @@ All entities, facts, dates, and quantities below are invented.
 
 ```yaml
 - id: RAID-0017
-  kind: risk
+  type: risk
   title: "Legacy records may not map cleanly to the canonical identifier"
   description: "A sample found inconsistent identifiers in older archive records. A high false-merge rate would undermine the planned catalog migration."
   category: quality
@@ -117,7 +117,7 @@ All entities, facts, dates, and quantities below are invented.
   trigger: "False-merge rate exceeds the agreed sample tolerance."
 
 - id: RAID-0018
-  kind: assumption
+  type: assumption
   title: "Accessibility review can complete within the pilot window"
   description: "The plan assumes the independent accessibility review finishes before pilot onboarding begins."
   category: external
@@ -128,7 +128,7 @@ All entities, facts, dates, and quantities below are invented.
   validation_plan: "Reviewer confirms scope, availability, and written completion date by 10 September."
 
 - id: RAID-0019
-  kind: issue
+  type: issue
   title: "Deletion verification failed in the managed-service sandbox"
   description: "Two test records remained discoverable after the documented deletion interval. The next data load is paused."
   category: quality
@@ -140,7 +140,7 @@ All entities, facts, dates, and quantities below are invented.
   eta: 2026-09-09
 
 - id: RAID-0020
-  kind: dependency
+  type: dependency
   title: "Security review required before restricted-record testing"
   description: "The test environment cannot receive restricted sample records until the security review confirms the approved access pattern."
   category: external
