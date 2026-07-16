@@ -1,136 +1,145 @@
 ---
 name: chief-of-staff-brief
 description: >-
-  Produce a daily or weekly chief-of-staff brief for a program manager —
-  a one-page digest that surfaces what needs attention today, which
-  decisions are due, which risks have changed state, and what the user
-  should walk into their first meeting already knowing. Composes the
-  raid-log, stakeholder-mapping, and scr-narrative skills.
-  TRIGGER when: user says "daily brief", "chief-of-staff brief", "what
-  should I focus on", "morning prep", "what's on my plate", or asks for
-  a single-page digest across their program.
-  DO NOT TRIGGER when: user wants a status update for an exec (use
-  scr-narrative or executive-summary-brief) or a list of tasks (use
-  task-management).
+  Produce a daily or weekly operating brief that surfaces decisions due,
+  material state changes, consequential meetings, and the few actions that
+  deserve the user's attention. Composes RAID, decision, stakeholder, and
+  calendar context without turning the result into a task dump.
+  TRIGGER when: the user asks for a morning brief, weekly focus view, meeting
+  preparation, or a concise answer to “what needs my attention?”
+  DO NOT TRIGGER when: the user needs an executive communication, a full status
+  report, or an unfiltered task list.
 origin: community
 ---
 
 # Chief-of-Staff Brief
 
-Produce a one-page daily or weekly brief that a PM can read in two minutes and walk into their day prepared. Written in the voice a chief of staff uses when the principal has five minutes between meetings.
+A chief-of-staff brief is a prioritization layer over existing information. It should tell the reader what changed, which decisions are approaching, where their intervention has leverage, and what can safely wait.
 
-## When to Use
+The brief is not a digest of everything that happened. It should be intentionally incomplete.
 
-- First thing in the morning, before calendar starts.
-- Monday morning for the week ahead.
-- When returning from a day out and catching up fast.
-- Before a 1:1 with a sponsor who will ask "what's the status."
+## Selection logic
 
-**Do not use** for:
-- Exec briefs sent upward → use `executive-summary-brief`.
-- Full program updates → use `scr-narrative`.
-- Task lists → use a tracker, not prose.
+Include an item only when at least one condition is true:
 
-## The Structure (One Page, Always)
+- a decision or commitment is due in the brief window;
+- new evidence changed the recommended action or risk state;
+- the reader’s intervention can materially unblock an outcome;
+- a meeting requires a position, pre-read, or negotiation choice;
+- delay today creates a disproportionate downstream cost.
+
+Exclude stable status, routine meetings, and tasks already progressing under a clear owner unless the user explicitly requests them.
+
+## Recommended structure
 
 ```markdown
-# Brief: [date]
+# Operating brief — [date / week]
 
-## BLUF
-[One sentence. The single most important thing the user should know walking into today/this week. If nothing qualifies, write "Nothing urgent; stay the course on [X]."]
+## Bottom line
+[The one changed condition or decision that should shape the reader’s attention.]
 
-## Decisions due today/this week
-- [Decision] — owner: [name] — due: [date] — status: [awaiting input / signed / blocked]
-- [...]
+## Decisions due
+| Decision | Decider | Due | Missing input | Recommended preparation |
+|---|---|---|---|---|
 
-## Risks that changed state
-- [Risk-id] [title] — was [status], now [status] — because [one line]
-- [...]
+## Material changes
+| Item | Previous state | New evidence / state | Implication | Owner |
+|---|---|---|---|---|
 
-## Meetings that matter
-- [time] [attendee] — the one thing to walk in knowing: [X]
-- [...]
+## Meetings with leverage
+| Meeting | Why it matters | Position / evidence to carry | Desired outcome |
+|---|---|---|---|
 
-## What to do in the first 30 minutes
-1. [Specific action, named owner if it needs handoff]
-2. [...]
-3. [...]
+## First actions
+1. ...
+2. ...
+3. ...
 
-## What I'd skip or defer
-- [Item] — [why it can wait]
+## Defer, delegate, or cancel
+- [Item] — [reason and destination]
+
+## Watch
+- [Trigger or evidence expected; owner; date]
 ```
 
-Total: ~20 lines of content. If it doesn't fit, the brief is failing its contract.
+The number of items should reflect actual priority, not an arbitrary quota. A brief with no urgent item may state that directly.
 
-## How It Works
+## Worked example: fictional library pilot
 
-1. **Gather inputs** — RAID log, calendar, open decision memos, unread messages from priority stakeholders.
-2. **Filter ruthlessly.** A brief is what the user needs *today*, not what happened yesterday. If an item isn't actionable or state-changed, it does not appear.
-3. **BLUF first.** One sentence. The rule: if the principal read only this line, what's the one thing they need to know?
-4. **Decisions before risks.** Decisions are what the user will be asked for; risks are what might change the decision set. Sequence matters.
-5. **Meetings with a "one thing."** Every meeting gets exactly one pre-loaded fact the user should walk in with. If a meeting has no such fact, flag it for cancel/defer.
-6. **First-30-minutes is three bullets maximum.** Any more and it's not triage.
-7. **What I'd skip** is mandatory, not optional. A brief that only adds items and doesn't remove any is just a todo list.
+All facts, people, and systems below are invented.
 
-## Composition With Other Skills
+```markdown
+# Operating brief — 9 September 2026
 
-The chief-of-staff brief is a **composition**, not a primitive. It draws on:
+## Bottom line
+The fictional Northstar Library pilot should not load another dataset until tomorrow’s deletion-control decision; protect the afternoon for that decision rather than continuing routine pilot preparation.
 
-- **`raid-log`** → "Risks that changed state" pulls from RAID rows whose `status` changed in the last 24h/7d.
-- **`stakeholder-mapping`** → "Meetings that matter" filters the calendar to Manage-Closely + Keep-Satisfied quadrants.
-- **`scr-narrative`** → BLUF is the Resolution of an implicit SCR; the brief is not the place to walk through Situation and Complication.
-- **`decision-memo`** → "Decisions due" cross-references any `DM-xxxx` with `status: in_review` and `due` within the window.
+## Decisions due
+| Decision | Decider | Due | Missing input | Recommended preparation |
+|---|---|---|---|---|
+| Extend or exit the managed-service pilot | Executive sponsor | Thursday 16:00 | provider root-cause note; independent retest result | Prepare a two-option memo with exit cost and residual data risk |
+| Move staff onboarding by three weeks | Product owner | Friday 12:00 | revised accessibility estimate | Confirm whether the revised date preserves the year-end expansion decision |
 
-## Examples
+## Material changes
+| Item | Previous state | New evidence / state | Implication | Owner |
+|---|---|---|---|---|
+| RAID-014 deletion verification | monitoring | second failed verification test | next data load paused | Pilot owner |
+| RAID-021 accessibility | remediation planned | two critical flows affected, not one | schedule estimate likely increases | Product owner |
 
-### Good BLUF
+## Meetings with leverage
+| Meeting | Why it matters | Position / evidence to carry | Desired outcome |
+|---|---|---|---|
+| 10:00 provider review | determines whether failure is contractual, product, or integration-related | deletion timeline, test logs, exit clause | written root-cause and retest commitment |
+| 15:30 sponsor check-in | decision window closes tomorrow | pilot options, cost range, unresolved controls | agree decision criteria before final memo |
 
-> Kenji signed off on the Japan pause last night; today's job is to rerun the regional rollout Gantt and get Maria's budget re-approval before Friday.
+## First actions
+1. Ask the provider for the raw deletion-event timeline before the 10:00 review.
+2. Draft the pilot extension/exit option table using measured facts and explicit assumptions.
+3. Confirm the latest viable onboarding date with operations and accessibility reviewers.
 
-(Specific, names the change, names today's action.)
+## Defer, delegate, or cancel
+- Routine roadmap review — delegate to the product owner; no decision or material change this week.
+- Search-interface copy review — defer until the accessibility remediation path is agreed.
 
-### Bad BLUF
+## Watch
+- Legacy-record matching sample: data lead reports Friday; escalate only if false merges exceed the agreed tolerance.
+```
 
-> Several things are in motion across the program this week.
+## How to build the brief
 
-(Useless. Tells the user nothing.)
+1. Define the time window: today, the next business day, or the week.
+2. Pull open decisions, recent state changes, high-leverage meetings, and approaching triggers.
+3. Rank by consequence of delay and need for the reader’s personal intervention.
+4. Separate preparation from ownership: the reader may need context without becoming the action owner.
+5. Include the minimum evidence needed to enter each consequential meeting with a position.
+6. Explicitly remove work through defer, delegate, or cancel choices.
+7. Preserve links to source records rather than rewriting their full history.
+8. State “nothing urgent” when that is the truthful result.
 
-### Good "meeting that matters" line
+## Reviewer checklist
 
-> 10:30 Priya 1:1 — walk in knowing: INFRA-1204 ships tomorrow, ack'd by QA, no blockers. She'll ask.
+- [ ] Bottom line identifies a changed condition or decision, not generic activity.
+- [ ] Every decision has a decider, date, and missing-input view.
+- [ ] Material changes compare previous state with new evidence.
+- [ ] Meetings are included because they have leverage, not merely because they exist.
+- [ ] First actions are concrete and limited to the brief window.
+- [ ] At least one defer, delegate, cancel, or explicit “none” judgment is present.
+- [ ] Stable status and routine tasks are excluded.
+- [ ] Source artifacts remain the authoritative record.
 
-### Bad "meeting that matters" line
-
-> 10:30 Priya 1:1 — discuss updates.
-
-(Discussing updates is the default; the brief's job is to pre-load the *non-default*.)
-
-### Good "what I'd skip"
-
-> The Tuesday design review — the decision it was called to make was already made in Slack on Monday. Suggest canceling and reading the thread.
-
-## Reviewer Checklist
-
-- [ ] Fits on one page (~20 content lines max).
-- [ ] BLUF is one sentence and names today's action, not yesterday's event.
-- [ ] Every decision has an owner and a due date.
-- [ ] Every risk line shows state change (was/now), not just current state.
-- [ ] Every meeting has a specific "one thing to walk in knowing."
-- [ ] First-30-minutes has ≤ 3 bullets.
-- [ ] "Skip or defer" section is non-empty.
-
-## Common Failure Modes
+## Common failure modes
 
 | Failure | Repair |
 |---|---|
-| BLUF is vague ("lots happening") | Pick the one change that matters most since last brief. If nothing qualifies, say so. |
-| Risks section is a RAID dump | Filter to state-changed items. Full log belongs in the log. |
-| "Meetings that matter" lists every meeting | Manage-Closely + Keep-Satisfied + any meeting where a decision is due. That's it. |
-| No "skip or defer" section | Add one. A brief that doesn't remove items isn't triaging. |
-| Two pages | Cut until it fits. A second page means the brief is failing. |
+| Brief mirrors the calendar | Include only meetings with a decision, negotiation, or material unblock. |
+| Every open risk appears | Include state changes and approaching triggers only. |
+| The user becomes owner of every action | Distinguish awareness, preparation, escalation, and direct ownership. |
+| “Skip” section contains low-value filler | Make a real trade-off or state that nothing should be removed. |
+| Bottom line summarizes yesterday | State what today’s attention should change. |
+| Brief creates facts not present in sources | Mark unknowns and request the missing input. |
 
-## Source
+## Sources
 
-- Chief of staff role literature — see [Tyler Parson's COS Handbook](https://www.chiefofstaff.co/) and [Dan Ciampa, HBR, 2020, "The Case for a Chief of Staff"](https://hbr.org/2020/05/the-case-for-a-chief-of-staff).
-- Andy Grove, *High Output Management*, on leverage of information curation.
-- Daily-standup and morning-kickoff patterns from Agile practice, adapted to single-principal use.
+- Andy Grove, *High Output Management*, for leverage and management by exception.
+- Chief-of-staff practice literature on principal attention, preparation, and decision follow-through.
+- RAID, decision-log, and calendar practices adapted into a single operating view.

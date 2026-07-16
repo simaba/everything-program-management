@@ -1,121 +1,55 @@
 # Everything Program Management
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-![Markdown](https://img.shields.io/badge/-Markdown-000000?logo=markdown&logoColor=white)
-![Program Management](https://img.shields.io/badge/focus-program%20management-1f6feb)
+[![CI](https://img.shields.io/badge/CI-tested-2ea44f)](.github/workflows/ci.yml)
 
-A structured harness toolkit for program managers, delivery leads, chiefs of staff, and PMO-style operators.
+A practitioner toolkit for producing decision-ready program artifacts: charters, RAID records, risk-review views, decision memos, stakeholder analyses, and executive briefs.
 
-This repository packages repeatable PM work into reusable agents, skills, templates, examples, schemas, and lightweight validation utilities so work is faster, more consistent, and easier to review.
+The repository combines authored methods, agent instructions, templates, worked fictional examples, JSON schemas, and a small validation CLI. Its purpose is not to generate polished management prose. Its purpose is to make assumptions, evidence, ownership, trade-offs, and follow-through easier to inspect.
 
-## Maturity
+## What makes the toolkit opinionated
 
-**Foundation release.**
+Several rules cut across the repository:
 
-The repository includes a working entry layer, core skills, specialist agents, practical templates, commands, worked examples, JSON schemas, a small `pmkit` validation CLI, and automated CI checks for the packaged utility layer.
+- **Facts, estimates, assumptions, interpretations, and unknowns are different evidence classes.** Do not blend them into one confident narrative.
+- **Hard constraints are not weighted criteria.** A score must not compensate for a failed legal, safety, privacy, security, or feasibility gate.
+- **A decision memo needs a real option set.** Straw alternatives make the memo less trustworthy, not more complete.
+- **A RAID score is an ordering aid, not expected-loss mathematics.** State change, proximity, reversibility, and control confidence still matter.
+- **Power is not the only stakeholder dimension.** Impact, legitimacy, required consultation, and dissent belong in the analysis.
+- **An executive brief may be a decision, exception, progress, or FYI artifact.** Do not invent an ask when none exists, and do not hide a decision inside an FYI note.
+- **Public examples must be genuinely fictional.** Renaming people in an internal-looking scenario is not sufficient sanitization.
 
-It is early, but it is no longer an incubation placeholder.
+## Start with the artifact you actually need
 
-### Public release materials
-
-- [Public Release Checklist](docs/PUBLIC_RELEASE_CHECKLIST.md): final repository/history/Actions review before visibility changes.
-- [Draft v0.1.0 release notes](docs/releases/v0.1.0.md): intended published scope and release record.
-- [Changelog](CHANGELOG.md): user-visible version history.
-
-## Purpose
-
-Use this repository when you need help producing structured PM artifacts such as:
-
-- project charters
-- RAID logs and risk updates
-- executive summaries and steering briefs
-- stakeholder maps
-- decision memos
-- daily chief-of-staff style PM briefs
-
-This is not a system of record for project execution. It is an artifact-generation and validation layer that sits beside Jira, Asana, Excel, Confluence, or similar tools.
-
-## Publication safety
-
-Use fictional, generic, or fully sanitized examples in this repository.
-
-Do not publish:
-
-- real employer, customer, vendor, supplier, or colleague information
-- confidential project names, roadmaps, escalations, or delivery risks
-- internal steering materials or executive communications
-- real RAID logs, decision memos, or stakeholder maps
-- private performance, HR, legal, procurement, or financial information
-- non-public product details, architecture, defects, launch gates, or audit findings
-
-## Current capabilities
-
-| Surface | Included | Purpose |
+| Need | Use | Distinctive constraint |
 |---|---|---|
-| **Root entry layer** | `AGENTS.md`, `CLAUDE.md` | Tells a harness or human where to start and how the repository is structured |
-| **Skills** | multiple | Core methods for chartering, executive briefing, stakeholder mapping, decision memos, RAID management, and chief-of-staff briefing |
-| **Agents** | 3 | Focused roles for executive summarization, risk triage, and daily PM briefing |
-| **Commands** | multiple | Reusable command prompts for common PM workflows |
-| **Templates** | multiple | Reusable markdown artifacts |
-| **Examples** | multiple | Worked fictional examples and validated example data |
-| **Schemas** | 2 | JSON schemas for structured RAID rows and decision-memo frontmatter |
-| **Utility layer** | `pmkit` CLI | Validates structured artifacts against bundled schemas |
-| **Automation** | CI workflow | Runs tests and validates bundled example artifacts automatically |
-| **Docs and rules** | included | Quick-start guidance and always-on writing rules |
+| Authorize or reset an initiative | [`project-charter`](skills/project-charter/SKILL.md) | outcome, non-scope, decision rights, baselines, guardrails |
+| Maintain persistent uncertainty and problems | [`raid-log`](skills/raid-log/SKILL.md) | evidence, triggers, next-action owner, preserved history |
+| Prepare a risk forum | [`risk-triage`](skills/risk-triage/SKILL.md) | state change, time-to-action, available lever |
+| Make a consequential choice | [`decision-memo`](skills/decision-memo/SKILL.md) | real alternatives, hard gates, sensitivity, reversibility |
+| Analyze participation and approval | [`stakeholder-mapping`](skills/stakeholder-mapping/SKILL.md) | authority, impact, legitimacy, evidence need, dissent |
+| Brief leadership | [`executive-summary-brief`](skills/executive-summary-brief/SKILL.md) | bottom line, load-bearing evidence, uncertainty, explicit classification |
+| Prepare the reader’s day or week | [`chief-of-staff-brief`](skills/chief-of-staff-brief/SKILL.md) | decisions due, material changes, leverage, removal of low-value work |
 
-## Repository structure
+## Worked example family
 
-```text
-AGENTS.md
-CLAUDE.md
-agents/
-commands/
-docs/
-examples/
-rules/
-schemas/
-skills/
-src/
-templates/
-tests/
-.github/workflows/
-```
+The core skills use a single, clearly invented case about a fictional research-library network evaluating a metadata and archive-search pilot. The case is deliberately outside the author’s employment history and is used to show how artifacts connect:
 
-## Skill families
+1. the charter establishes outcome, boundaries, and evidence milestones;
+2. the RAID log records uncertain conditions and current issues;
+3. risk triage isolates changed items and near-term decisions;
+4. stakeholder analysis identifies authority, impact, legitimate participation, and review needs;
+5. the decision memo compares managed, internal, and split processing options;
+6. the executive and operating briefs communicate the resulting decisions without copying the source artifacts.
 
-| Skill family | What it helps produce |
-|---|---|
-| Chartering | project charter with scope, goals, assumptions, risks, and success measures |
-| Executive communication | one-page briefs, BLUF summaries, SCR narratives |
-| Stakeholder alignment | stakeholder maps, influence notes, and communication strategy |
-| Decision support | options memo with recommendation, rationale, and risks |
-| RAID discipline | structured RAID entries and update hygiene |
-| Daily operating cadence | chief-of-staff style PM briefing |
+The examples are teaching material, not disguised records of a real program.
 
-## Included agents
+## Structured validation
 
-| Agent | Purpose |
-|---|---|
-| `executive-summary` | turns long material into a concise executive-ready brief |
-| `risk-triage` | reviews risks and issues, re-scores them, and recommends actions |
-| `chief-of-staff-brief` | composes a one-page daily PM brief from context, RAID state, and decisions due |
+The bundled `pmkit` CLI currently validates:
 
-## Quick start
-
-1. Read [`docs/QUICKSTART.md`](docs/QUICKSTART.md).
-2. Start with [`AGENTS.md`](AGENTS.md).
-3. Pick the closest command or skill for the artifact you need.
-4. Use the relevant template.
-5. Compare your draft to the fictional worked examples before sending.
-
-## Validate structured artifacts
-
-The bundled `pmkit` CLI validates two artifact types today:
-
-- RAID rows stored as JSON
-- decision-memo frontmatter stored in Markdown
-
-Install and run:
+- RAID rows stored as JSON;
+- decision-memo frontmatter stored in Markdown.
 
 ```bash
 python -m pip install -e .
@@ -123,37 +57,55 @@ pmkit validate raid examples/data/raid-row.json
 pmkit validate decision-memo examples/data/decision-memo.md
 ```
 
-## Design principles
+Schemas are intentionally narrow. Validation confirms shape and selected semantics; it does not prove that the judgment, evidence, owner, or recommendation is correct.
 
-- **Operator first**: outputs should help real PM work, not just describe PM theory.
-- **Reusable over ornamental**: templates and methods should be easy to adapt.
-- **Executive clarity**: outputs should surface the answer early.
-- **Auditability**: assumptions, decisions, owners, and risks should stay traceable.
-- **Honest maturity**: this repository should only claim what is actually shipped.
-- **Public-safe examples**: examples should teach structure without exposing private work.
+## Repository map
 
-## Roadmap
+```text
+AGENTS.md              harness-neutral operating guidance
+CLAUDE.md              equivalent project instructions
+agents/                 orchestration wrappers around the authored skills
+skills/                 methods, examples, reviewer checks, and failure modes
+commands/               reusable invocation surfaces
+templates/              blank artifact structures
+examples/               fictional and schema-validated examples
+schemas/                machine-readable contracts
+src/pmkit/              lightweight validation CLI
+tests/                  validator and packaged-CLI tests
+rules/                  shared writing and workflow rules
+```
 
-The next release should add:
+## Quality standard for contributions
 
-1. richer worked examples across stakeholder maps and decision memos
-2. a small formatter for RAID JSON and memo frontmatter
-3. optional CSV import and export helpers for RAID data
-4. one additional structured schema for charter frontmatter or executive briefs
-5. broader publication-safety review before any real artifact is adapted into an example
+A contribution should add at least one of the following:
 
-## Related repositories
+- a sharper decision rule or trade-off;
+- a useful failure mode and repair;
+- a worked example with explicit evidence classes and assumptions;
+- a schema or validator that catches a meaningful defect;
+- a source that changes the method rather than decorating it;
+- a clearer boundary between two artifacts that are often confused.
 
-- `lean-ai-ops` complements this repository with process-improvement framing and DMAIC thinking.
-- `decision-journal-agent` complements this repository with decision tracking over time.
-- `ai-platform-pm-playbook` complements this repository with AI platform PM guidance.
-- `governance-playbook` complements this repository with AI governance operating-model design.
+Avoid adding another template merely because a business document has a familiar name. New artifacts should have a distinct decision purpose and reviewer contract.
 
-## Scope and disclaimer
+## Maturity
 
-This repository is shared in a personal capacity. It is not project, legal, HR, procurement, financial, compliance, or employment advice.
+This is a foundation release with working validation, CI, authored skill files, and connected fictional examples. It is not a project-management system of record, autonomous chief of staff, or substitute for experienced judgment.
 
-The templates, agents, and skills are practitioner aids. Adapt them to your organization, project context, stakeholders, governance model, and review process before use.
+The most valuable next work is deeper rather than broader:
+
+- calibration and history views for recurring decisions and risks;
+- richer cross-artifact linking and change provenance;
+- additional schema-backed artifacts only where validation adds real value;
+- more worked cases that stress disagreement, weak evidence, and changing assumptions.
+
+## Publication safety
+
+Do not commit real employer, customer, supplier, colleague, roadmap, contract, pricing, incident, risk, decision, stakeholder, or executive-communication material. Use invented organizations, `.example` / `.test` contact domains, and scenarios that cannot reasonably be mistaken for sanitized internal work.
+
+## Scope
+
+The methods and tools are practitioner aids. Adapt them to the organization, decision rights, applicable controls, and evidence available. They do not constitute project, legal, HR, procurement, financial, compliance, or employment advice.
 
 ---
 

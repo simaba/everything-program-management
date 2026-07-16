@@ -1,200 +1,183 @@
 ---
 name: raid-log
 description: >-
-  Maintain a RAID log — Risks, Assumptions, Issues, Dependencies —
-  with strict schema, owner/date discipline, and risk scoring
-  (probability × impact). Adds rows, promotes assumptions that fail
-  to risks, closes items with resolution notes, and generates
-  this-week summaries. Schema-validated against schemas/raid-row.json.
-  TRIGGER when: user says "RAID", "risk register", "add this risk",
-  "what's at risk", "track this dependency", "log an assumption", or
-  wants a structured program-risk artifact.
-  DO NOT TRIGGER when: the user wants a free-form risk discussion
-  (use risk-triage) or a single-issue deep dive (use decision-memo).
+  Maintain a RAID log for risks, assumptions, issues, and dependencies with
+  owner, date, evidence, and action discipline. Validates structured rows
+  against schemas/raid-row.json and supports weekly review and archival.
+  TRIGGER when: the user needs a RAID log, risk register, assumption record,
+  issue entry, dependency record, or structured program-risk artifact.
+  DO NOT TRIGGER when: the user needs a decision memo or a temporary triage view.
 origin: community
 ---
 
 # RAID Log
 
-Maintain a structured log of **Risks**, **Assumptions**, **Issues**, and **Dependencies** for a program, with enough discipline that the log is actually useful six months in.
+A useful RAID log is a decision-support record, not a warehouse for every concern ever mentioned. Each row should preserve enough context to answer: what is uncertain or wrong, why it matters, what evidence would change our view, and who is responsible for the next move.
 
-## When to Use
+## The four record types
 
-- Kickoff of any program that will run longer than one month.
-- Weekly or bi-weekly maintenance during execution.
-- Before any steering committee update.
-- When inheriting an existing program with no risk artifact.
-
-**Do not use** for single-issue deep-dives (those belong in a decision memo) or for post-facto blame allocation (see `post-mortem-facilitation`).
-
-## The Model
-
-Four categories, each with precise definitions:
-
-| Category | Definition | Key field |
+| Type | Definition | Minimum decision value |
 |---|---|---|
-| **Risk** | A future event that *might* happen and, if it does, affects the program. | Probability × Impact |
-| **Assumption** | A condition we believe to be true and are planning around, but haven't confirmed. | Validation plan |
-| **Issue** | An event that *has happened* and is affecting the program now. | Owner + fix plan |
-| **Dependency** | An input we need from someone else, without which we can't proceed. | Provider + need-by date |
+| **Risk** | A future event or condition that may affect objectives | trigger, response, owner, review date |
+| **Assumption** | An unverified belief the plan depends on | validation method, owner, deadline |
+| **Issue** | A condition already affecting delivery or outcomes | containment/fix, owner, ETA |
+| **Dependency** | An external input, decision, or deliverable required for progress | provider, need-by date, blocked work |
 
-The most common mistake is conflating these — especially risks with issues. A risk is future; an issue is present. Once a risk occurs, it becomes an issue and is closed as a risk.
+When a risk occurs, close or supersede the risk record and create an issue. Do not silently change its meaning while preserving the old score and history.
 
-## Row Schema
+## Row contract
 
-Each row validates against `schemas/raid-row.json`:
+Each structured row validates against `schemas/raid-row.json`.
 
 ```yaml
-id: RAID-0042                    # sequential, immutable once assigned
+id: RAID-0042
 type: risk | assumption | issue | dependency
-title: "One-line summary"        # ≤ 80 chars
-description: "Full context"      # prose, 1-3 sentences
+title: "One-line statement of the condition or event"
+description: "Context, affected objective, and why this belongs in the log"
 category: scope | schedule | cost | quality | resource | external
-owner: name@domain.com           # single human, not a team
-opened: 2026-04-19               # YYYY-MM-DD
-due: 2026-05-15 | null           # review date or need-by date
+owner: owner@example.test
+opened: 2026-09-01
+due: 2026-09-15 | null
 status: open | monitoring | closed
-# Risk-only fields:
-probability: 1-5                 # 1=remote, 5=near-certain
-impact: 1-5                      # 1=minor, 5=program-threatening
-score: probability * impact      # computed, not input
-mitigation: "What we're doing about it"
-trigger: "What would signal this is about to happen"
-# Assumption-only fields:
-validation_plan: "How we'll confirm or disprove"
-# Issue-only fields:
-fix_plan: "What we're doing now"
-eta: 2026-05-01
-# Dependency-only fields:
-provider: name@domain.com | team-name
-blocks: [RAID-0012, RAID-0021]   # what this dependency blocks
+
+# Risk fields
+probability: 1-5
+impact: 1-5
+score: probability * impact
+mitigation: "Action intended to reduce probability or impact"
+trigger: "Observable condition that changes the response"
+
+# Assumption fields
+validation_plan: "Evidence, method, owner, and deadline"
+
+# Issue fields
+fix_plan: "Containment and resolution plan"
+eta: 2026-09-12
+
+# Dependency fields
+provider: provider@example.test | team-name
+blocks: [RAID-0012]
 ```
 
-## How It Works
+Use the exact field names defined by the schema in the repository. The example above illustrates the information model; the validator remains the source of truth for accepted keys.
 
-### Adding a row
+## Scoring discipline
 
-1. **Classify.** Risk, assumption, issue, or dependency? Use the definitions above strictly.
-2. **Write the title first** — 80 characters, the gist. If you can't compress it, the item isn't clear in your own head yet.
-3. **Write owner and date.** Owner is a single human. "The team" is not an owner.
-4. **For risks**: score probability and impact (1–5 each). Score = P × I. Risks scoring ≥ 16 go to the top of the weekly review.
-5. **For assumptions**: write the validation plan. If you can't, the assumption is really a hope.
-6. **For issues**: write the fix plan and ETA.
-7. **For dependencies**: write the provider and blocks list.
+Probability and impact scores are ordinal judgments, not precise arithmetic. Multiplying them can help sort a review list, but it does not produce a calibrated estimate of expected loss.
 
-### Weekly review
+Record the rationale behind material score changes. For important risks, add qualitative context that a number cannot capture:
 
-1. **Promote/demote.** Assumptions that failed become risks. Risks that occurred become issues. Issues that closed become closed.
-2. **Re-score risks.** Probability changes as the program progresses.
-3. **Close aged items.** Anything open > 60 days with no owner update: force-review, either close with "no action" or reassign.
-4. **Archive closed rows.** Don't delete — move to `archive/` so the history survives.
+- proximity: how soon the event could occur;
+- detectability: whether warning is likely before impact;
+- reversibility: whether recovery is practical;
+- concentration: whether one event affects several objectives;
+- control confidence: whether the mitigation is tested or merely planned.
 
-### This-week summary (for exec brief)
+Never allow a medium numeric score to hide a failed non-negotiable constraint or a low-probability catastrophic outcome.
 
-Produce a three-line summary:
-- **Top 3 risks by score** — title, owner, score, mitigation one-liner.
-- **New issues this week** — count + titles.
-- **Dependencies due in next 14 days** — count + provider.
+## How to create a record
 
-## Examples
+1. **Classify the record.** Future uncertainty, unverified belief, current problem, or external dependency?
+2. **Tie it to an objective.** Explain what scope, milestone, quality bar, budget, or outcome is affected.
+3. **Assign the next-action owner.** A functional team may contribute, but one person should own the next move.
+4. **Define evidence.** State what would increase, decrease, validate, close, or convert the record.
+5. **Set a review clock.** Use a due date, trigger, or checkpoint appropriate to the item.
+6. **Avoid false precision.** Mark estimates and uncertain dates as such.
+7. **Preserve history.** Close or supersede records; do not delete the rationale.
 
-### Good rows
+## Weekly review
+
+Review changes, not every line equally.
+
+- Reclassify assumptions that have been validated or disproved.
+- Convert occurred risks into issues with explicit links.
+- Re-score only when evidence or time horizon changed.
+- Close stale records that no longer affect an objective.
+- Challenge items with no owner action, evidence plan, or review trigger.
+- Move time-critical items into the `risk-triage` view for action sequencing.
+
+## Worked examples: fictional library migration
+
+All entities, facts, dates, and quantities below are invented.
 
 ```yaml
 - id: RAID-0017
   type: risk
-  title: "Tier-1 supplier may miss May 15 parts deadline"
-  description: "Supplier reported yield issues on two SKUs. Alternate source
-    exists but adds 4 weeks lead time."
-  category: schedule
-  owner: priya@example.com
-  opened: 2026-04-02
-  due: 2026-05-15
+  title: "Legacy records may not map cleanly to the canonical identifier"
+  description: "A sample found inconsistent identifiers in older archive records. A high false-merge rate would undermine the planned catalog migration."
+  category: quality
+  owner: data-lead@example.test
+  opened: 2026-09-02
+  due: 2026-09-12
   status: monitoring
   probability: 3
-  impact: 5
-  score: 15
-  mitigation: "Weekly yield review; alternate supplier on standby contract."
-  trigger: "Yield remains below 70% after May 1 review."
+  impact: 4
+  score: 12
+  mitigation: "Run a stratified validation sample and route ambiguous records to a review queue."
+  trigger: "False-merge rate exceeds the agreed sample tolerance."
 
 - id: RAID-0018
   type: assumption
-  title: "Regulatory approval arrives before Aug 1"
-  description: "Planning assumes EU AI Act conformity assessment completes by
-    July, enabling Aug launch. No formal commitment from notified body yet."
+  title: "Accessibility review can complete within the pilot window"
+  description: "The plan assumes the independent accessibility review finishes before pilot onboarding begins."
   category: external
-  owner: marcus@example.com
-  opened: 2026-04-10
-  due: 2026-06-15
+  owner: product-owner@example.test
+  opened: 2026-09-03
+  due: 2026-09-10
   status: open
-  validation_plan: "Notified body provides written ETA by June 15 review."
+  validation_plan: "Reviewer confirms scope, availability, and written completion date by 10 September."
 
 - id: RAID-0019
   type: issue
-  title: "Translation bug in APAC onboarding flow"
-  description: "Simplified Chinese strings incorrectly rendered during wave 1
-    pilot, contaminating activation data."
+  title: "Deletion verification failed in the managed-service sandbox"
+  description: "Two test records remained discoverable after the documented deletion interval. The next data load is paused."
   category: quality
-  owner: chen@example.com
-  opened: 2026-04-15
-  due: null
+  owner: pilot-owner@example.test
+  opened: 2026-09-07
+  due: 2026-09-09
   status: open
-  fix_plan: "Fix merged and deploying to staging April 17; re-run APAC pilot."
-  eta: 2026-04-22
+  fix_plan: "Contain the pilot, obtain provider logs, repeat the test with an independent observer, and decide whether to exit the pilot."
+  eta: 2026-09-09
 
 - id: RAID-0020
   type: dependency
-  title: "Security review from IT for new vendor onboarding"
-  description: "New vendor must pass IT security review before production
-    access. Review queue currently 3 weeks."
+  title: "Security review required before restricted-record testing"
+  description: "The test environment cannot receive restricted sample records until the security review confirms the approved access pattern."
   category: external
-  owner: sima@example.com
-  opened: 2026-04-12
-  due: 2026-05-10
+  owner: platform-lead@example.test
+  opened: 2026-09-04
+  due: 2026-09-14
   status: open
-  provider: it-security@example.com
-  blocks: [RAID-0012]
+  provider: security-review@example.test
+  blocks: [RAID-0017]
 ```
 
-### Bad row — conflated risk/issue
+## Reviewer checklist
 
-```yaml
-- title: "The vendor is late"      # This is an issue, not a risk
-  type: risk
-```
-Fix: change type to `issue`, add `fix_plan` and `eta`.
-
-### Bad row — no owner
-
-```yaml
-- owner: "Program team"            # Not a human
-```
-Fix: assign to one person accountable for the item.
-
-## Reviewer Checklist
-
-- [ ] Every row has a single human owner.
-- [ ] Risks have probability, impact, and score.
-- [ ] Assumptions have a validation plan.
-- [ ] Issues have a fix plan and ETA.
-- [ ] Dependencies have a provider and a `blocks` list.
-- [ ] No row has been open > 60 days without an owner update.
-- [ ] Risks ≥ 16 are called out in the weekly summary.
-- [ ] Closed rows are archived, not deleted.
+- [ ] The record type matches the actual condition.
+- [ ] The affected objective is clear.
+- [ ] One person owns the next action.
+- [ ] Risks have a trigger and response, not only a score.
+- [ ] Assumptions have a validation method and date.
+- [ ] Issues distinguish containment from permanent resolution.
+- [ ] Dependencies identify the provider, need-by date, and blocked work.
+- [ ] Score changes cite new evidence or time-horizon changes.
+- [ ] Closed records preserve resolution rationale.
+- [ ] The active log remains small enough to review meaningfully.
 
 ## Anti-patterns
 
-| Anti-pattern | Why it's bad | Repair |
+| Anti-pattern | Why it fails | Repair |
 |---|---|---|
-| "Generic risk" rows (e.g., "Schedule slippage") | Not actionable; owner can't do anything specific | Rewrite as a named, concrete event with a trigger |
-| Team as owner | No one is accountable | Assign to the single person who would make the call |
-| All risks scored 3×3 = 9 | Real program has a distribution | Re-score honestly; some are 2×2, some are 4×5 |
-| Log of 200 rows, never pruned | Unreadable; no one uses it | Archive closed items, cap active log at ~40 rows |
-| Issues recorded as "ongoing" with no ETA | Never closes | Every issue gets a hard ETA or becomes a program change |
+| “Schedule risk” with no event or trigger | Cannot be observed or acted on | Name the event, affected milestone, trigger, and response. |
+| Team as owner | Accountability for the next action is unclear | Assign one accountable person and list contributors separately. |
+| Every risk scores 9 or 12 | Scoring has become ritual | Revisit definitions and record the rationale for material items. |
+| Score treated as expected-loss mathematics | Ordinal scales do not support that precision | Use score for rough ordering and add qualitative dimensions. |
+| Hundreds of open rows | The log stops supporting decisions | Archive resolved records and maintain a separate triage view. |
+| Issue has only a final fix | Immediate containment is missing | Separate containment, diagnosis, correction, and verification. |
 
-## Source
+## Sources
 
-- PMI *PMBOK Guide*, Risk Management knowledge area.
-- UK Association for Project Management, *APM Body of Knowledge*, chapter on RAID logs.
-- Internal program-management playbooks at large consultancies.
-- Complementary JSON schema: `schemas/raid-row.json`.
+- PMI standards and practice guidance on project risk and issue management.
+- ISO 31000, for risk identification, analysis, treatment, monitoring, and review.
+- Douglas Hubbard, *The Failure of Risk Management*, for cautions about ordinal risk matrices and false precision.

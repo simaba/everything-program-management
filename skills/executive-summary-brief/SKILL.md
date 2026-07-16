@@ -1,145 +1,150 @@
 ---
 name: executive-summary-brief
 description: >-
-  Produce a one-page executive summary of any input (long doc, thread,
-  meeting transcript, RAID log) that opens with BLUF, follows the
-  Pyramid Principle, and ends with the explicit ask. Enforces the
-  "one page or it's not an exec brief" rule.
-  TRIGGER when: user says "exec summary", "exec brief", "one-pager",
-  "BLUF", "summarize for the CEO", "TL;DR for leadership", or asks to
-  compress something for an executive audience.
-  DO NOT TRIGGER when: user wants a status report (use scr-narrative)
-  or a daily PM brief (use chief-of-staff-brief).
+  Produce a concise executive brief that opens with the decision, recommendation,
+  or material change; supports it with the smallest sufficient evidence set; and
+  ends with a clear action or FYI classification. Uses answer-first structure
+  without forcing every situation into the same number of sections or bullets.
+  TRIGGER when: a long source needs a decision-ready leadership summary.
+  DO NOT TRIGGER when: the user needs a multi-option decision memo, a detailed
+  status report, or a daily personal operating brief.
 origin: community
 ---
 
 # Executive Summary Brief
 
-Compress any input into a one-page brief an executive can read in 60 seconds, decide on, and act from. Pyramid-structured. BLUF first. Ask last. Nothing else.
+An executive brief is an attention-allocation instrument. Its job is to let a reader understand what changed, why it matters, what judgment is being recommended, and what action—if any—is required.
 
-## When to Use
+It is not a compressed transcript. It should preserve the decision-relevant evidence and uncertainty while removing chronology, meeting detail, and decorative context.
 
-- A 30-page document needs to land in 60 seconds of executive attention.
-- A long Slack/email thread needs to be turned into a decision-ready summary.
-- A program update needs to go to a steering committee.
-- A board memo, exec staff pre-read, or sponsor briefing.
+## Choose the brief type first
 
-**Do not use** for:
-- Daily PM brief → use `chief-of-staff-brief`.
-- Status reports with no decision implied → use `scr-narrative`.
-- Multi-option decisions → use `decision-memo` (which is its own format).
+| Type | Lead with | End with |
+|---|---|---|
+| **Decision brief** | recommendation and decision deadline | explicit decision ask |
+| **Exception brief** | material variance or control failure | intervention or escalation needed |
+| **Progress brief** | outcome achieved or forecast change | next milestone / no action required |
+| **FYI brief** | important fact and implications | explicit “no decision requested” |
 
-## The One-Page Contract
+Do not manufacture an ask when the appropriate classification is FYI. Conversely, do not label an unresolved decision as FYI to avoid naming the decider.
 
-Hard rules:
-1. **One page.** ~300–400 words. No appendix in the brief itself; appendix is a separate document.
-2. **BLUF on line 1.** Bottom Line Up Front. The recommendation, decision needed, or one-sentence summary.
-3. **Pyramid structure.** BLUF, then 3 supporting points, then evidence under each. No prose ramps.
-4. **The Ask.** Last line names what the executive is being asked to do: approve, decide, attend, fund, escalate. If there is no ask, this is a FYI, not an exec brief.
+## Information hierarchy
 
-## The Structure
+A strong brief usually contains:
+
+1. **Bottom line:** decision, recommendation, or material change.
+2. **Stakes:** consequence of action, delay, or inaction.
+3. **Load-bearing evidence:** the few facts that support the bottom line.
+4. **Uncertainty and risk:** what is not known and what could change the recommendation.
+5. **Action:** named owner, decision, date, and immediate follow-through—or a clear statement that no action is requested.
+
+Use headings that fit the situation. “Exactly three supporting points” and “exactly one page” can be useful editing constraints, but they are not substitutes for judgment. The brief should be as short as possible without omitting material evidence or caveats.
+
+## Recommended structure
 
 ```markdown
-# [Title — 6 words max]
+# [Decision or material change]
 
-**To**: [Name, Role]
-**From**: [Name]
-**Date**: 2026-04-19
-**Re**: [What this is about — one phrase]
+**To:** [reader / decision owner]
+**From:** [author]
+**Date:** [date]
+**Classification:** Decision | Exception | Progress | FYI
 
-## BLUF
-[One sentence. The recommendation, decision, or single most important fact.]
+## Bottom line
+[One or two sentences: recommendation, decision, or material change.]
 
-## Why This Matters
-[Two sentences. Stakes for the business. What changes if we act / don't act.]
+## Why it matters now
+[Stakes, timing, and cost of delay or inaction.]
 
-## What's True
-1. **[Supporting point 1]** — [one-sentence evidence]
-2. **[Supporting point 2]** — [one-sentence evidence]
-3. **[Supporting point 3]** — [one-sentence evidence]
+## Evidence
+- [Fact, source, and implication]
+- [Fact, source, and implication]
 
-## What I Recommend
-[One paragraph. The recommended action, the single most important reason, and the cost of doing it.]
+## Uncertainty and risks
+- [Uncertainty or residual risk; mitigation / evidence plan]
 
-## Risks
-- [Risk + mitigation, one line]
-- [Risk + mitigation, one line]
+## Action
+[Decision or action, accountable owner, and date. If FYI, state “No action requested.”]
 
-## The Ask
-[One sentence. Explicit, named action by named person by named date.]
-
-## Where to Look for More
-- [Link to source doc]
-- [Link to RAID log / decision memo]
+## Sources
+- [Links to decision memo, RAID log, analysis, or report]
 ```
 
-## How It Works
+## Worked example: fictional library pilot
 
-1. **Find the BLUF.** Read the source 2–3 times if needed. The BLUF is the one thing the executive must know if they read nothing else. If you cannot identify it in one sentence, the source is not yet decision-ready and needs more thinking before a brief.
-2. **Find the 3 supporting points** that prove the BLUF. Use MECE. If you have 5, you're not yet sure which 3 matter.
-3. **Match each point to evidence** the executive can scan, not interpret.
-4. **State stakes.** "Why this matters" is the bridge; without it, the executive doesn't know whether to read past line 2.
-5. **Write the recommendation as a stance, not a summary.** "We should X because Y" — not "the team has been considering X."
-6. **State the Ask explicitly.** "Approve $X by Friday." "Sign by EOW." "Attend Monday's review." "Decide between A and B."
-7. **Cut.** If it's over one page, cut. The contract is one page; everything else is appendix.
+All facts, organizations, dates, and amounts below are invented.
 
-## Examples
+### Good decision brief
 
-### Good BLUF
+```markdown
+# Delay the archive-search pilot three weeks
 
-> Recommend pausing the Japan launch to Q4 to absorb the regulatory delay; doing so costs $1.2M and avoids a $9M downside scenario.
+**To:** Executive sponsor
+**From:** Product owner
+**Date:** 8 September 2026
+**Classification:** Decision
 
-(Names the recommendation, the cost, and the alternative cost in one sentence.)
+## Bottom line
+Delay the fictional Northstar Library pilot by three weeks and use the reserved window to remediate accessibility and deletion-verification failures. The delay adds an estimated $45,000 in project cost but avoids beginning staff onboarding with two unresolved control defects.
 
-### Bad BLUF
+## Why it matters now
+The pilot onboarding schedule becomes difficult to change after Friday because training and site coverage are booked. Proceeding on the current date would either exclude keyboard-only users from critical tasks or require a manual data-deletion process that has not been independently verified.
 
-> The Japan launch program has experienced several developments over the last two weeks that we should discuss.
+## Evidence
+- Accessibility testing found that two critical correction flows cannot be completed without a pointer device; remediation is estimated at eight working days.
+- Two of twelve deletion-verification cases remained discoverable beyond the documented interval; the cause is not yet isolated.
+- The three-week delay preserves the year-end expansion decision date if retesting passes by 30 September.
 
-(Buries the lede. Tells the executive nothing actionable.)
+## Uncertainty and risks
+- The deletion defect may be provider-specific rather than integration-specific. A joint log review is scheduled tomorrow.
+- The cost estimate excludes a second accessibility-review cycle; finance has reserved a $15,000 contingency.
 
-### Good "Why This Matters"
+## Action
+Approve the revised pilot date by 12:00 Friday and authorize the product owner to cancel the pilot if either control remains unresolved at the 30 September readiness review.
+```
 
-> A regulatory delay closes the Q3 launch window. Holding the original date risks a $9M penalty and a reputational hit; pausing costs $1.2M in idle inventory and slips Japan revenue by one quarter.
+### Weak version
 
-### Bad "Why This Matters"
+> The pilot has encountered several challenges and the team has been working cross-functionally to evaluate options. Leadership feedback would be appreciated.
 
-> This is a complex situation with many stakeholders affected. Multiple options are being considered.
+This version hides the recommendation, omits evidence and timing, and does not identify a decision owner.
 
-### Good "Ask"
+## How to produce the brief
 
-> Sign the attached Option-B authorization by Friday Apr 24, 17:00 JST, or flag concerns in #program-japan-launch.
+1. Identify the decision, exception, progress change, or FYI classification.
+2. Write the bottom line before the context.
+3. Trace each supporting claim to a source or accountable owner.
+4. Remove chronology unless sequence changes the judgment.
+5. Quantify stakes with ranges and assumptions rather than invented precision.
+6. Include the uncertainty most likely to change the recommendation.
+7. Name the action and deadline, or state clearly that no action is requested.
+8. Link the underlying artifacts so the brief does not become the only record.
 
-### Bad "Ask"
+## Reviewer checklist
 
-> Please review and provide thoughts at your convenience.
+- [ ] The brief type is explicit.
+- [ ] The first paragraph contains the decision, recommendation, or material change.
+- [ ] Stakes include timing and consequence of delay or inaction.
+- [ ] Evidence is factual, sourced, and load-bearing.
+- [ ] Estimates and assumptions are distinguishable from measured facts.
+- [ ] Material uncertainty is visible.
+- [ ] The action names an owner and date, or the brief states no action is requested.
+- [ ] Source artifacts are linked.
+- [ ] The brief is concise without deleting decision-relevant caveats.
 
-(Not an ask; it's a passive notice. Executives won't act on it.)
-
-## Reviewer Checklist
-
-- [ ] Brief fits on one page (~300–400 words).
-- [ ] BLUF is on line 1 (after metadata).
-- [ ] BLUF is one sentence, action-led, not context-led.
-- [ ] "Why This Matters" quantifies stakes.
-- [ ] Exactly 3 supporting points, each with one-line evidence.
-- [ ] Recommendation is a stance, not a summary.
-- [ ] Risks include mitigations, not just the risk.
-- [ ] The Ask is explicit, named, dated.
-- [ ] No buried lede anywhere — every section opens with the conclusion.
-
-## Common Failure Modes
+## Common failure modes
 
 | Failure | Repair |
 |---|---|
-| BLUF is context, not conclusion | Move conclusion to the top; context becomes "Why This Matters." |
-| 7 supporting points | MECE-collapse to 3. If you can't, you don't know what's actually load-bearing. |
-| No ask | If there's no ask, it's a FYI; reframe as such or close the open question first. |
-| Two pages | Cut. The contract is one page. |
-| Hedging in the BLUF ("we may want to consider…") | Take a stance or don't write the brief. |
+| The brief begins with meeting history | Start with the judgment or changed condition. |
+| “Leadership feedback requested” | Name the actual decision, decider, and deadline. |
+| Precise cost or forecast with no assumptions | Use a range and cite the model or owner. |
+| Risk section lists generic concerns | Include the uncertainty that could change the recommendation. |
+| FYI note contains a hidden approval request | Reclassify it as a decision brief. |
+| Compression removes dissent or control failures | Preserve material evidence even when it complicates the narrative. |
 
-## Source
+## Sources
 
-- Barbara Minto, *The Pyramid Principle*, on opening with the answer.
-- BLUF (Bottom Line Up Front) from US military staff-writing tradition; see Kabay, *Writing for the Military*, and the Army Regulation 25-50 standard.
-- Amazon's six-pager and PR-FAQ traditions on decision-ready prose.
-- Andy Grove, *High Output Management*, on the cost of executive attention.
+- Barbara Minto, *The Pyramid Principle*, for answer-first structure.
+- U.S. military BLUF writing traditions, for decision-relevant opening statements.
+- Andy Grove, *High Output Management*, for management attention and exception-based reporting.

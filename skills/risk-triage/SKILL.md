@@ -1,151 +1,162 @@
 ---
 name: risk-triage
 description: >-
-  Re-score and prioritize risks in a RAID log against current evidence
-  and recommend owner actions. Produces a triaged list with each risk
-  classified as Now / This Week / This Month / Watch, plus the single
-  next action per risk and the named owner. Built for weekly risk-review
-  forums.
-  TRIGGER when: user says "triage these risks", "what's red", "weekly
-  risk review", "re-score the RAID", "what's at risk this week", or
-  asks for prioritization across an existing risk set.
-  DO NOT TRIGGER when: user wants to add a new risk (use raid-log) or
-  classify a single risk in isolation (use raid-log directly).
+  Re-prioritize an existing risk and issue set against current evidence.
+  Produces a time-to-action view, identifies what changed, and assigns one
+  next action to one accountable owner. Built for recurring risk-review forums.
+  TRIGGER when: the user asks what changed, what needs action now, or how to
+  prepare a weekly risk review from an existing RAID log.
+  DO NOT TRIGGER when: the user is creating the source RAID log or needs a
+  decision-grade analysis of one issue.
 origin: community
 ---
 
 # Risk Triage
 
-Take a RAID log (or any list of risks) and produce a triaged, action-ready view: which risks demand action **now**, which **this week**, which **this month**, and which are **watch-only**. Each risk gets one next action and one named owner. No pages of analysis — the output is a ranked working set.
+Risk triage is not another risk register. It is a temporary operating view that answers three questions:
 
-## When to Use
+1. What changed since the last review?
+2. What action or decision is now time-critical?
+3. Who owns that action and by when?
 
-- Weekly risk review meeting prep.
-- After a state change (incident, schedule slip, dependency break) that invalidates yesterday's prioritization.
-- Inheriting a RAID log and needing to know what's actually live.
-- Before an exec brief — the brief should reflect the triaged view, not the raw log.
+The value comes from state change and action timing, not from copying severity scores into a new table.
 
-**Do not use** for:
-- Adding a single new risk → use `raid-log`.
-- Building the log in the first place → use `raid-log`.
-- Decision-grade tradeoff analysis on one risk → use `decision-memo`.
+## When to use it
 
-## The Four Buckets
+- weekly risk-review preparation;
+- after an incident, dependency slip, or new evidence changes the program state;
+- when inheriting a large RAID log and needing an actionable subset;
+- before an executive brief that should show movement rather than inventory.
 
+Do not use triage to create new RAID entries, hide unresolved ownership, or substitute urgency labels for analysis.
+
+## Time-to-action buckets
+
+```text
+NOW         action or decision required within 24 hours
+THIS WEEK   action or decision required before the weekly window closes
+THIS MONTH  active treatment with a dated checkpoint this month
+WATCH       no immediate lever; retain a specific recheck trigger or date
 ```
-NOW         — needs action in the next 24 hours; un-triaged it will damage the program
-THIS WEEK   — needs decision or escalation by end of this week
-THIS MONTH  — being managed; check at next monthly review
-WATCH       — known but not currently consuming bandwidth; re-check at next quarterly
-```
 
-The buckets are **time-to-action**, not severity × likelihood. A SEV-1 risk fully mitigated this morning is "watch"; a SEV-3 risk that just changed state is "now."
+These are not severity bands. A severe risk can remain on watch when no decision is due and the control is functioning. A moderate issue can belong in `NOW` when it blocks a scheduled decision tomorrow.
 
-## Scoring
+## Triage logic
 
-For each risk, ask three questions in order:
+Evaluate each open item in this order:
 
-1. **What changed since the last triage?** State changes drive the bucket. If nothing changed, the bucket from last week is the default unless a deadline forced a move.
-2. **What's the time-to-action?** When does the next decision or owner action need to happen? That sets the bucket.
-3. **Who owns the next action?** One named human. "The team" is not an answer.
+### 1. State change
 
-Severity × likelihood is informational, not the bucket criterion. A high-severity risk with no actionable lever this week is correctly "watch." A low-severity risk blocking a Friday decision is correctly "now."
+Record the new evidence, missed milestone, changed assumption, owner change, control failure, or external event. “Still high” is not a state change.
 
-## The Output
+### 2. Decision or action clock
+
+Identify the latest date by which a useful action can still change the outcome. Use that date—not anxiety—to set the bucket.
+
+### 3. Available lever
+
+Name the decision, mitigation, escalation, or evidence-gathering action that can move the item. Risks with no current lever normally belong in `WATCH`, with a defined trigger.
+
+### 4. Accountable owner
+
+Assign one person accountable for the next action. Contributors may be many; the action owner should not be “the team.”
+
+### 5. Escalation reason
+
+When moving an item upward, state why the existing owner or forum can no longer manage it within the required window.
+
+## Output contract
 
 ```markdown
-# Risk Triage — [date]
+# Risk triage — [date]
 
-**Source RAID log**: [link]
-**Triaged by**: [name]
-**Window**: 2026-04-19 → 2026-04-26
+**Source:** [RAID log or review pack]
+**Review window:** [start] → [end]
+**Material changes since last review:** [count]
 
-## NOW (next 24h)
-| RAID | Title | What changed | Next action | Owner | Due |
+## NOW
+| ID | What changed | Decision / next action | Owner | Due | Consequence of delay |
 |---|---|---|---|---|---|
-| RAID-0014 | China data-residency exposure | Legal flagged new draft of PIPL guidance | Draft response position | Marcus | Apr 20 |
 
 ## THIS WEEK
-| RAID | Title | What changed | Next action | Owner | Due |
+| ID | What changed | Decision / next action | Owner | Due | Escalate if |
 |---|---|---|---|---|---|
-| RAID-0021 | EV cabin noise miscls | QAT pilot result expected May 15 | Schedule pilot review | Chen | Apr 24 |
 
 ## THIS MONTH
-| RAID | Title | Status | Owner | Next checkpoint |
+| ID | Current treatment | Owner | Next checkpoint | Evidence expected |
 |---|---|---|---|---|
-| RAID-0011 | Vendor SLA renegotiation | In progress; draft term sheet circulated | Maria | May 5 |
 
 ## WATCH
-| RAID | Title | Why it's watch | Re-check at |
+| ID | Why no action now | Recheck date or trigger | Owner |
 |---|---|---|---|
-| RAID-0008 | Long-tail PII in support tickets | No new incidents in 60 days | Quarterly |
 
-## Removed from active set
-- [RAID-id] [title] — [reason: closed / accepted / transferred to <owner>]
+## Removed from active view
+- [ID] — closed / accepted / transferred / superseded — [one-line rationale]
 ```
 
-## How It Works
+## Worked example: fictional library migration
 
-1. **Pull the RAID log.** Filter to open items. Closed items go to the "removed" list with one line each.
-2. **For each open item, identify state changes** since the last triage. New evidence, missed milestone, decision made, owner change.
-3. **Bucket by time-to-action.** Default: same bucket as last triage. Move only on state change or deadline pressure.
-4. **For each item moved up** (e.g., This Week → Now), name what triggered the move.
-5. **For each item with no next action**, either (a) name one or (b) move to Watch / close it. "No action" with active status is the most common log-rot symptom.
-6. **Cap NOW at 5 items.** If you have more, you're in crisis mode (see `contexts/crisis-mode.md`); triage isn't the right tool.
-7. **Cap THIS WEEK at 10 items.** Same logic — beyond 10, the team can't actually act on all of them.
+The following records are invented and do not describe a real organization or program.
 
-## Composition With Other Skills
+### NOW
 
-- **`raid-log`** is the source. Triage does not modify the log; it produces a derived view.
-- **`stakeholder-mapping`** decides who needs the triage output. NOW items often demand a Manage-Closely stakeholder be looped in same-day.
-- **`decision-memo`** is what NOW or THIS WEEK risks often graduate into — when the next action is "decide between X and Y."
-- **`executive-summary-brief`** is the upward-facing view; risk-triage is the working view.
+| ID | What changed | Decision / next action | Owner | Due | Consequence of delay |
+|---|---|---|---|---|---|
+| RAID-014 | The managed-service pilot failed two deletion-verification tests | Pause the next data load and decide whether to extend the pilot or exit | Pilot owner | 17:00 tomorrow | Restricted records could remain outside the approved retention window |
 
-## Examples
+### THIS WEEK
 
-### Good "what changed" line
+| ID | What changed | Decision / next action | Owner | Due | Escalate if |
+|---|---|---|---|---|---|
+| RAID-021 | The accessibility review found keyboard-navigation defects in the search results page | Agree the remediation scope and revised pilot date | Product owner | Friday | The revised estimate moves beyond the reserved test window |
+| RAID-026 | The archive team confirmed 8% of legacy records lack a stable identifier | Approve a temporary matching rule and quantify false-merge risk | Data lead | Thursday | The validation sample exceeds the agreed error tolerance |
 
-> Vendor confirmed they cannot meet the May 1 cutover; this risk moves from "this month" to "now" because the slip invalidates our Q2 plan.
+### THIS MONTH
 
-### Bad "what changed" line
+| ID | Current treatment | Owner | Next checkpoint | Evidence expected |
+|---|---|---|---|---|
+| RAID-011 | Exit-format mapping is being tested against the internal canonical schema | Platform lead | 30 September | Successful round-trip export for the representative sample |
 
-> Risk is still elevated.
+### WATCH
 
-(Not a state change; just a status. Belongs in the RAID log, not in triage output.)
+| ID | Why no action now | Recheck date or trigger | Owner |
+|---|---|---|---|
+| RAID-008 | No recurrence of the intermittent queue delay after the configuration change | Reopen if two scheduled runs exceed the two-hour recovery objective | Operations lead |
 
-### Good NOW item
+## Capacity rules
 
-> RAID-0014. Legal flagged a new PIPL guidance draft yesterday afternoon that could classify our hybrid voice path as in-scope for data localization. Next action: Marcus drafts our position memo by tomorrow EOD; if classified in-scope, this changes the architecture decision currently in DM-0014.
+Do not use hard caps as universal truth, but treat an overloaded top bucket as a signal that the forum has lost prioritization discipline.
 
-### Bad NOW item
+A practical review should normally be able to answer:
 
-> RAID-0014. Data residency is a major risk. Need to address.
+- Which three to five items could materially change the program this week?
+- Which decisions cannot wait for the next forum?
+- Which items are being kept active without an owner, lever, or evidence plan?
 
-(No state change, no action, no owner, no date. Cannot be acted on.)
+If every item is urgent, move from routine triage to incident or recovery management and reduce the active decision set.
 
-## Reviewer Checklist
+## Reviewer checklist
 
-- [ ] Every NOW item names what changed since the last triage.
-- [ ] Every NOW and THIS WEEK item has a single named owner (not a team).
-- [ ] Every NOW and THIS WEEK item has a specific next action and a date.
-- [ ] NOW bucket has ≤ 5 items.
-- [ ] THIS WEEK bucket has ≤ 10 items.
-- [ ] Items in WATCH have an explicit re-check date.
-- [ ] Items removed from the active set have a reason.
+- [ ] Every `NOW` and `THIS WEEK` item names a concrete state change.
+- [ ] Every active item has one next action or an explicit reason for watch status.
+- [ ] Owners and dates refer to the next action, not merely the underlying risk.
+- [ ] Upward moves include an escalation reason.
+- [ ] `WATCH` items have a recheck trigger or date.
+- [ ] Accepted and closed items are removed from the active view with rationale.
+- [ ] The view is small enough for the forum to make decisions, not merely read statuses.
 
-## Common Failure Modes
+## Common failure modes
 
 | Failure | Repair |
 |---|---|
-| 15 items in NOW | You're in a crisis, not a triage. Switch to `crisis-mode` and reduce span. |
-| Every item moved up since last week | Either a real state change wave (incident) or risk inflation. Ask: what concretely changed in the world? |
-| Owner = "the team" | Force a single name. If no one will own it, it should be in WATCH or closed. |
-| WATCH bucket is 80% of items | Probably correct — most risks are not actionable this week. Don't artificially promote. |
-| No state-change column | Triage becomes a list copy. The state-change column is the value. |
+| Severity score determines the bucket automatically | Use time-to-action and available leverage; retain severity as context. |
+| “Risk remains elevated” appears as the change | Name the new evidence or leave the item in its prior state. |
+| Every item has a different contributor but no accountable owner | Assign one owner for the next move. |
+| Watch has no trigger | Add the condition that reactivates the item. |
+| The triage view is almost the same size as the RAID log | Remove stable items and focus on changed decisions and actions. |
 
-## Source
+## Sources
 
-- PMI *PMBOK*, Risk Management chapter on monitoring and re-prioritization.
-- ISO 31000, Risk Management — Guidelines, on the iterative re-assessment principle.
-- Lean Coffee / weekly-stand-up patterns adapted for risk forums.
-- Andy Grove, *High Output Management*, on management by exception (only re-touch what changed).
+- ISO 31000, for iterative risk review and treatment.
+- PMI standards and guidance on monitoring risks, issues, and responses.
+- Andy Grove, *High Output Management*, for management by exception and attention to changed conditions.

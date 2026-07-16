@@ -1,194 +1,216 @@
 ---
 name: project-charter
 description: >-
-  Generate a project charter — a one- to two-page document that
-  answers: what, why, who, by when, with what, and how will we know
-  it worked. Includes scope/non-scope, success criteria, high-level
-  milestones, and initial RAID seed. Produces charter.md plus a seed
-  RAID log row for the initial top risk.
-  TRIGGER when: user asks to "write a charter", "kick off a project",
-  "project brief", "PID", or describes a new initiative that needs
-  scoping.
-  DO NOT TRIGGER when: the project already has a charter (use
-  executive-summary-brief for updates) or the scope is a single
-  decision (use decision-memo).
+  Draft a concise project charter that establishes the objective, rationale,
+  scope boundaries, decision rights, resources, milestones, success measures,
+  and initial uncertainties. Produces a reviewable charter and a seed RAID entry.
+  TRIGGER when: a new cross-functional initiative needs authorization or a stale
+  initiative needs re-chartering.
+  DO NOT TRIGGER when: the work is a routine task, an operating process, or a
+  single unresolved decision.
 origin: community
 ---
 
 # Project Charter
 
-Produce a one- to two-page charter that answers six questions in order: **what**, **why**, **who**, **by when**, **with what**, **how we'll know**. Nothing more, nothing less.
+A charter is a compact agreement about why a project exists, what outcome it owns, which boundaries apply, who can make which decisions, and what evidence will show whether the work is succeeding.
 
-## When to Use
+It should reduce ambiguity before detailed planning. It should not pretend that uncertain scope, estimates, or benefits are already known.
 
-- New program kickoff.
-- Re-scoping an existing program whose original charter is stale.
-- Proposing a new workstream to a steering committee.
-- Handing a program between PMs.
+## When to use it
 
-**Do not use** for single-deliverable tasks (use a task ticket) or ongoing operational work (use an operating-model doc).
+- a new cross-functional project needs sponsor authorization;
+- an initiative has drifted and needs a reset;
+- ownership or scope boundaries are disputed;
+- a program is moving between phases or accountable leaders;
+- a proposal needs enough definition to justify discovery funding.
 
-## The Six Questions
+A charter is not a detailed delivery plan, product requirements document, business case, or project schedule. Link those artifacts rather than compressing them into the charter.
 
-A good charter answers:
+## The core questions
 
-| Question | Section | Length |
+| Question | Charter section | Quality test |
 |---|---|---|
-| **What** are we doing? | Objective and scope | 2–3 sentences |
-| **Why** now? | Business rationale | 1 paragraph |
-| **Who** owns it? | Sponsor, PM, working team | Named list |
-| **By when?** | Timeline with milestones | 3–6 milestones |
-| **With what?** | Budget, resources, dependencies | Summary line + link to detail |
-| **How will we know** it worked? | Success criteria | 3–5 measurable criteria |
+| What outcome are we trying to create? | Objective | states a changed condition, not only an activity |
+| Why now? | Rationale | identifies the trigger, opportunity, or cost of delay |
+| What is inside and outside the project? | Scope / non-scope | names boundaries that could otherwise be misunderstood |
+| Who decides and who delivers? | Governance | separates sponsorship, project leadership, and work ownership |
+| What must be true? | Assumptions / dependencies | records the plan’s uncertain foundations |
+| What is the initial path? | Milestones | shows decision and evidence points, not every task |
+| How will we judge progress and outcome? | Measures | distinguishes leading signals, outputs, and outcomes |
 
-Plus two structural elements:
-- **Non-scope** — things people might assume are in scope but aren't. This prevents the #1 charter failure mode: unstated exclusions that bite you later.
-- **Initial top risk** — seeded into the RAID log.
-
-## How It Works
-
-1. **Draft the objective** in one sentence. If you can't, the scope isn't clear yet; stop and clarify with the sponsor.
-2. **Draft the "why now"** in one paragraph. Why is this the right use of the team's time versus other options?
-3. **Name the sponsor, PM, and core team.** Single humans.
-4. **Draft 3–6 milestones** with dates. Dates are ranges ("late Q3") only if you truly cannot commit.
-5. **Summarize budget and resources.** Headcount, cash, key dependencies. Link to detailed model if it exists.
-6. **Draft 3–5 success criteria** that are measurable and time-bound. "Increase NPS" fails; "NPS ≥ 45 by end of Q3, measured by in-product survey n ≥ 500" passes.
-7. **Draft non-scope.** Three to five items. Think adversarially: what might someone assume is in scope that isn't?
-8. **Seed the top risk** into the RAID log as RAID-0001.
-9. **Review against the Reviewer Checklist.**
-10. **Circulate to sponsor for sign-off.** Do not start execution without a signed charter.
-
-## Template
+## Recommended structure
 
 ```markdown
-# Project Charter: [Project Name]
+# Project Charter: [Project name]
 
-**Status**: Draft | In Review | Signed
-**Version**: 0.1
-**Last updated**: 2026-04-19
-**Sponsor**: Name (Role)
-**Program Manager**: Name
-**Target sign-off date**: 2026-05-01
-
----
+**Status:** Draft | In review | Authorized | Superseded
+**Version:** 0.1
+**Sponsor / authorizing owner:**
+**Project lead:**
+**Target authorization date:**
+**Next charter review:**
 
 ## Objective
+[The outcome, target population or process, and relevant time horizon.]
 
-[One to three sentences. Active voice. What we will do and for whom.]
-
-## Why Now
-
-[One paragraph. What changed in the environment, what opportunity or threat this addresses, and why this quarter/year is the right time.]
+## Why now
+[What changed; cost of delay; why this is preferable to competing uses of capacity.]
 
 ## Scope
+### In scope
+- ...
 
-In scope:
-- [Specific, concrete inclusion]
-- [Specific, concrete inclusion]
-- [Specific, concrete inclusion]
+### Explicitly out of scope
+- ...
 
-Non-scope (explicitly excluded):
-- [Inclusion someone might assume]
-- [Inclusion someone might assume]
-
-## Team
-
-| Role | Name | Allocation |
+## Decision rights and team
+| Decision / responsibility | Accountable role | Contributors / reviewers |
 |---|---|---|
-| Sponsor | Name (Role) | 10% |
-| Program Manager | Name | 100% |
-| Engineering Lead | Name | 50% |
-| Design Lead | Name | 25% |
-| [Other] | Name | % |
 
-## Timeline
-
-| Milestone | Target | Description |
+## Milestones and evidence
+| Milestone | Target | Evidence or decision produced |
 |---|---|---|
-| M1 — Kickoff | 2026-05-01 | Charter signed, team assembled |
-| M2 — Discovery complete | 2026-06-01 | Requirements, constraints, dependency map |
-| M3 — Alpha | 2026-07-15 | Internal-only version; N users |
-| M4 — Beta | 2026-09-01 | External beta; N users, N regions |
-| M5 — GA | 2026-11-01 | Public launch |
-| M6 — Post-launch review | 2026-12-15 | Outcomes vs success criteria |
 
-## Budget & Resources
+## Resources and constraints
+- budget / capacity envelope:
+- fixed constraints:
+- major dependencies:
 
-- Budget: $[X] for [period], covering [categories]
-- Headcount: [N] FTE-equivalents for [period]
-- Key dependencies: [list; link to full dependency map]
+## Measures
+| Measure | Type | Baseline | Target or decision threshold | Source |
+|---|---|---:|---:|---|
+|  | leading / output / outcome / guardrail |  |  |  |
 
-## Success Criteria
+## Initial assumptions and risks
+- Assumption:
+- Validation plan:
+- Top risk:
+- Trigger / first response:
 
-We will know this project succeeded if, within 90 days of GA:
-
-1. [Measurable criterion with target and measurement method]
-2. [Measurable criterion with target and measurement method]
-3. [Measurable criterion with target and measurement method]
-
-Each criterion must be: (a) measurable, (b) time-bound, (c) tied to a metric the team can reasonably influence.
-
-## Risks (Initial)
-
-Top risk: [one-line description]. Seeded as RAID-0001 in the risk log.
-
-## Sign-off
-
-- Sponsor: _________________________ Date: _______
-- Program Manager: ___________________ Date: _______
-- Key stakeholder 1: _________________ Date: _______
+## Authorization and review
+- decision:
+- conditions:
+- next review trigger or date:
 ```
 
-## Examples
+## Measure design
 
-### Good objective
+Avoid treating “launch” as success. A credible charter usually includes:
 
-> Build and launch an EU-market conformity assessment workflow that lets our automotive AI teams self-serve their AI Act compliance documentation before the Feb 2027 enforcement date.
+- **leading measures:** evidence that the project is progressing toward the outcome;
+- **output measures:** what the team will produce;
+- **outcome measures:** the change the project is intended to cause;
+- **guardrails:** harms, costs, or quality losses that must not be traded away.
 
-### Bad objective
+State the baseline and measurement source where possible. When a baseline does not yet exist, make baseline discovery an early milestone rather than inventing a target.
 
-> Drive AI governance excellence across the organization.
+## Worked example: fictional library search pilot
 
-(Unmeasurable, unbounded, no target user.)
+All organizations, figures, systems, and dates below are invented.
 
-### Good success criterion
+### Objective
 
-> By 2026-12-15, at least 80% of in-scope AI features have a complete conformity assessment package (all 7 required sections, audited sample n ≥ 20), with zero external audit findings classified "major."
+Pilot a multilingual archive-search service across three fictional libraries so staff can locate and correct catalog records without relying on manual spreadsheet searches. The pilot should establish whether the service reduces median lookup time while preserving accessibility, data-boundary, and correction-quality guardrails.
 
-### Bad success criterion
+### Why now
 
-> Improve AI governance maturity.
+The library network plans to combine two archive collections next year. Current search and correction work is fragmented across local tools, and the merger estimate assumes a more consistent catalog workflow. A bounded pilot can test the assumption before a larger migration commitment.
 
-### Good non-scope line
+### Scope
 
-> Not in scope: AI features deployed only in non-EU markets. Those are covered by `governance-emea-v2` separately.
+**In scope**
 
-(Prevents the common mistake of a reader assuming a bigger scope.)
+- search across a synthetic and public-safe catalog sample;
+- staff correction workflow with review and rollback;
+- English and one fictional second-language interface;
+- accessibility, privacy, and recovery testing;
+- decision package for whether to expand.
 
-## Reviewer Checklist
+**Out of scope**
 
-- [ ] Objective is one to three sentences.
-- [ ] "Why now" answers what changed, not just what we want.
-- [ ] Sponsor is a named human, not a title.
-- [ ] PM is a named human with ≥ 50% allocation.
-- [ ] At least 3 milestones with specific dates.
-- [ ] Non-scope has at least 3 items.
-- [ ] All success criteria are measurable and time-bound.
-- [ ] At least one risk is seeded into the RAID log.
-- [ ] Charter is ≤ 2 pages.
+- patron-account or borrowing-history data;
+- replacement of the core catalog system;
+- public self-service launch;
+- automated deletion or modification without staff confirmation;
+- production migration of restricted archive records.
 
-## Common Failure Modes
+### Decision rights and team
+
+| Decision / responsibility | Accountable role | Contributors / reviewers |
+|---|---|---|
+| Pilot authorization and conditions | Executive sponsor | Product, operations, privacy, accessibility |
+| Technical design | Platform lead | Data and operations leads |
+| Data-boundary approval | Privacy reviewer | Platform lead |
+| Pilot operations | Library operations lead | Pilot-site representatives |
+| Expansion recommendation | Product owner | All reviewers; sponsor decides |
+
+### Milestones and evidence
+
+| Milestone | Target | Evidence or decision produced |
+|---|---|---|
+| Baseline complete | 15 September | lookup-time baseline, error taxonomy, representative sample |
+| Design review | 30 September | approved data flow, correction path, and recovery design |
+| Controlled test | 31 October | accessibility, deletion, rollback, and quality results |
+| Staff pilot | 30 November | observed usage, correction quality, support load |
+| Expansion decision | 15 December | options memo with residual risks and cost range |
+
+### Measures
+
+| Measure | Type | Baseline | Pilot target / guardrail | Source |
+|---|---|---:|---:|---|
+| Median record lookup time | Outcome | to be measured | 30% reduction from baseline | observed task sample |
+| Correction accepted without rework | Outcome | to be measured | improvement demonstrated with confidence range | reviewed corrections |
+| Restricted-record exposure | Guardrail | 0 known | 0 critical events | access and audit logs |
+| Keyboard-only task completion | Guardrail | not available | all critical flows complete | accessibility test |
+| Support requests per pilot user | Leading | not available | tracked; no universal threshold assumed | support log |
+
+### Initial assumption and risk
+
+- **Assumption:** the synthetic/public-safe test sample represents the difficult legacy-record patterns well enough to inform a pilot decision.
+- **Validation:** compare sample composition with the archive taxonomy before design approval.
+- **Top risk:** identifier inconsistency causes false record merges.
+- **Trigger:** false-merge rate exceeds the agreed sample tolerance.
+- **Initial response:** disable automatic merge suggestions and route ambiguous cases to review.
+
+## How to write the charter
+
+1. Start with the outcome and decision horizon.
+2. Name the cost of delay and competing priorities honestly.
+3. Write non-scope before detailed planning; this exposes hidden expectations early.
+4. Separate decision rights from team membership.
+5. Use milestones as evidence and decision points, not a task list.
+6. Design measures with baselines, sources, and guardrails.
+7. Record the plan’s most important assumption and how it will be tested.
+8. Authorize discovery with conditions when uncertainty is too high for a full commitment.
+9. Set a review trigger so the charter can be superseded when material conditions change.
+
+## Reviewer checklist
+
+- [ ] Objective describes an outcome, not only an activity.
+- [ ] Rationale includes the trigger and cost of delay.
+- [ ] Non-scope addresses likely misunderstandings.
+- [ ] Decision rights are explicit.
+- [ ] Milestones produce evidence or decisions.
+- [ ] Measures distinguish outputs, outcomes, leading signals, and guardrails.
+- [ ] Baselines and sources are stated or scheduled for discovery.
+- [ ] Initial assumptions have validation plans.
+- [ ] The charter can be authorized with explicit conditions rather than false certainty.
+- [ ] A review trigger or date is defined.
+
+## Common failure modes
 
 | Failure | Repair |
 |---|---|
-| Objective is 5 sentences with a "will" per clause | Pick the core outcome. Put the rest in scope bullets. |
-| No non-scope section | Write one. Think adversarially about unstated assumptions. |
-| Success criteria are "ship X" | Ship is an output, not an outcome. What changes because we shipped? |
-| Timeline has 15 milestones | Collapse to 3–6. If you genuinely have 15, you have a program-of-programs; each sub-program gets its own charter. |
-| Sponsor not identified | Don't start. Get a sponsor first. |
+| Charter is a mini project plan | Keep authorization-level decisions; link the plan. |
+| Objective begins with “build” or “implement” only | Add the intended changed condition and target user/process. |
+| Success means shipping | Add outcome and guardrail measures. |
+| Sponsor listed but decision rights unclear | Name which decisions the sponsor owns. |
+| Exact target without baseline | Make baseline discovery an early milestone. |
+| No review trigger | Add the condition or date that forces re-chartering. |
 
-## Source
+## Sources
 
-- PMI *PMBOK Guide*, Project Charter.
-- UK APM *Body of Knowledge*, Project Initiation Document (PID) format.
-- Amazon's PR/FAQ (press-release–first) format — structurally similar but outcome-led; see `docs/METHODOLOGY.md` for comparison.
+- PMI standards and guidance on project charters and authorization.
+- UK Association for Project Management guidance on project initiation and governance.
+- Bent Flyvbjerg and Dan Gardner, *How Big Things Get Done*, for reference-class thinking and risk realism.
