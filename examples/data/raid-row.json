@@ -1,14 +1,19 @@
 {
-  "id": "R-0001",
+  "id": "RAID-0001",
   "type": "risk",
-  "title": "Planned milestone may slip due to an unresolved external dependency",
+  "title": "External interface decision may delay the fictional pilot",
+  "description": "The fictional library pilot depends on an interface decision that has not yet been confirmed. A late decision could delay the review package and compress the validation window.",
+  "category": "schedule",
+  "owner": "fictional-delivery-lead@example.test",
+  "opened": "2026-04-26",
+  "due": "2026-05-15",
   "status": "mitigating",
-  "severity": 4,
-  "owner": "Fictional Delivery Lead",
-  "due_date": "2026-05-15",
-  "summary": "A fictional integration dependency remains uncertain and could delay a planned decision package if interface assumptions are not closed during the current review cycle.",
-  "impact": "The planned decision and downstream integration work could slip by one review cycle.",
-  "mitigation": "Confirm the interface decision, define a fictional fallback scope, and review the dependency status on a fixed cadence.",
   "last_updated": "2026-04-26",
-  "linked_decision_id": "DM-0001"
+  "probability": 3,
+  "impact": 4,
+  "score": 12,
+  "mitigation": "Confirm the interface decision, define a bounded fallback scope, and review progress on a fixed cadence.",
+  "trigger": "The interface decision remains unresolved five working days before the validation window begins.",
+  "linked_decision_id": "DM-0001",
+  "tags": ["fictional", "dependency", "decision-support"]
 }
