@@ -3,7 +3,7 @@ name: raid-log
 description: >-
   Maintain a RAID log for risks, assumptions, issues, and dependencies with
   owner, date, evidence, and action discipline. Validates structured rows
-  against schemas/raid-row.json and supports weekly review and archival.
+  against schemas/raid-row.schema.json and supports weekly review and archival.
   TRIGGER when: the user needs a RAID log, risk register, assumption record,
   issue entry, dependency record, or structured program-risk artifact.
   DO NOT TRIGGER when: the user needs a decision memo or a temporary triage view.
@@ -27,7 +27,7 @@ When a risk occurs, close or supersede the risk record and create an issue. Do n
 
 ## Row contract
 
-Each structured row validates against `schemas/raid-row.json`.
+Each structured row validates against [`schemas/raid-row.schema.json`](../../schemas/raid-row.schema.json).
 
 ```yaml
 id: RAID-0042
@@ -38,7 +38,8 @@ category: scope | schedule | cost | quality | resource | external
 owner: owner@example.test
 opened: 2026-09-01
 due: 2026-09-15 | null
-status: open | monitoring | closed
+status: open | monitoring | mitigating | blocked | accepted | closed | transferred
+last_updated: 2026-09-03
 
 # Risk fields
 probability: 1-5
@@ -52,14 +53,17 @@ validation_plan: "Evidence, method, owner, and deadline"
 
 # Issue fields
 fix_plan: "Containment and resolution plan"
-eta: 2026-09-12
+eta: 2026-09-12 | null
 
 # Dependency fields
 provider: provider@example.test | team-name
 blocks: [RAID-0012]
+
+# Closed or transferred records
+resolution: "What happened, what was decided, and where follow-up moved"
 ```
 
-Use the exact field names defined by the schema in the repository. The example above illustrates the information model; the validator remains the source of truth for accepted keys.
+Use the exact field names and enum values above. The schema conditionally requires risk, assumption, issue, dependency, and closure fields; `pmkit` also checks that a risk score equals `probability × impact`.
 
 ## Scoring discipline
 
@@ -98,7 +102,7 @@ Review changes, not every line equally.
 
 ## Worked examples: fictional library migration
 
-All entities, facts, dates, and quantities below are invented.
+All entities, facts, dates, and quantities below are invented. Each object is individually valid under the canonical schema.
 
 ```yaml
 - id: RAID-0017
@@ -110,6 +114,7 @@ All entities, facts, dates, and quantities below are invented.
   opened: 2026-09-02
   due: 2026-09-12
   status: monitoring
+  last_updated: 2026-09-07
   probability: 3
   impact: 4
   score: 12
@@ -125,6 +130,7 @@ All entities, facts, dates, and quantities below are invented.
   opened: 2026-09-03
   due: 2026-09-10
   status: open
+  last_updated: 2026-09-03
   validation_plan: "Reviewer confirms scope, availability, and written completion date by 10 September."
 
 - id: RAID-0019
@@ -135,7 +141,8 @@ All entities, facts, dates, and quantities below are invented.
   owner: pilot-owner@example.test
   opened: 2026-09-07
   due: 2026-09-09
-  status: open
+  status: blocked
+  last_updated: 2026-09-07
   fix_plan: "Contain the pilot, obtain provider logs, repeat the test with an independent observer, and decide whether to exit the pilot."
   eta: 2026-09-09
 
@@ -148,6 +155,7 @@ All entities, facts, dates, and quantities below are invented.
   opened: 2026-09-04
   due: 2026-09-14
   status: open
+  last_updated: 2026-09-04
   provider: security-review@example.test
   blocks: [RAID-0017]
 ```
