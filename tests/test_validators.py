@@ -12,14 +12,21 @@ SCHEMAS = ROOT / "schemas"
 
 def test_valid_raid_row_passes(tmp_path: Path) -> None:
     payload = {
-        "id": "R-0001",
+        "id": "RAID-0001",
         "type": "risk",
-        "title": "Supplier API approval may slip launch date",
-        "status": "open",
-        "severity": 4,
-        "owner": "Sima Bagheri",
-        "due_date": "2026-05-10",
-        "summary": "Approval from the external supplier is still pending and may push integration.",
+        "title": "External interface decision may delay the fictional pilot",
+        "description": "The fictional library pilot depends on an interface decision that may arrive after the planned validation window.",
+        "category": "schedule",
+        "owner": "fictional-delivery-lead@example.test",
+        "opened": "2026-04-26",
+        "due": "2026-05-10",
+        "status": "mitigating",
+        "last_updated": "2026-04-27",
+        "probability": 3,
+        "impact": 4,
+        "score": 12,
+        "mitigation": "Confirm the dependency and define a reversible fallback scope.",
+        "trigger": "The decision remains unresolved five working days before validation starts.",
     }
     path = tmp_path / "raid.json"
     path.write_text(json.dumps(payload), encoding="utf-8")
@@ -32,12 +39,17 @@ def test_invalid_raid_row_fails(tmp_path: Path) -> None:
     payload = {
         "id": "BAD-1",
         "type": "risk",
-        "title": "Too short",
+        "title": "Bad",
+        "description": "short",
+        "category": "unknown",
+        "owner": "X",
+        "opened": "not-a-date",
+        "due": "2026-05-10",
         "status": "unknown",
-        "severity": 8,
-        "owner": "S",
-        "due_date": "2026-05-10",
-        "summary": "short",
+        "last_updated": "2026-04-27",
+        "probability": 8,
+        "impact": 0,
+        "score": 99,
     }
     path = tmp_path / "raid.json"
     path.write_text(json.dumps(payload), encoding="utf-8")
@@ -48,15 +60,17 @@ def test_invalid_raid_row_fails(tmp_path: Path) -> None:
 
 def test_valid_decision_memo_frontmatter_passes(tmp_path: Path) -> None:
     content = """---
-decision_id: DM-0001
-title: Choose rollout option for supplier migration
+id: DM-0001
+title: Choose the processing model for the fictional library pilot
+decider: fictional-sponsor@example.test
+due: 2026-05-01
 status: in_review
-owner: Sima Bagheri
-decision_date: 2026-05-01
+decided: null
+decision: null
 review_date: 2026-06-01
-recommended_option: Option B
+decision_scope: Choose the processing model for the bounded pilot only.
 linked_raid_ids:
-  - R-0001
+  - RAID-0001
 ---
 
 # Decision Memo
@@ -66,19 +80,23 @@ Body.
     path = tmp_path / "decision.md"
     path.write_text(content, encoding="utf-8")
 
-    errors = validate_markdown_frontmatter(path, SCHEMAS / "decision-memo-frontmatter.schema.json")
+    errors = validate_markdown_frontmatter(
+        path,
+        SCHEMAS / "decision-memo-frontmatter.schema.json",
+    )
     assert errors == []
 
 
 def test_invalid_decision_memo_frontmatter_fails(tmp_path: Path) -> None:
     content = """---
-decision_id: memo-1
+id: memo-1
 title: Bad
+decider: X
+due: not-a-date
 status: maybe
-owner: X
-decision_date: 2026-05-01
+decided: 2026-05-01
+decision: ''
 review_date: 2026-06-01
-recommended_option: ''
 ---
 
 # Decision Memo
@@ -86,5 +104,8 @@ recommended_option: ''
     path = tmp_path / "decision.md"
     path.write_text(content, encoding="utf-8")
 
-    errors = validate_markdown_frontmatter(path, SCHEMAS / "decision-memo-frontmatter.schema.json")
+    errors = validate_markdown_frontmatter(
+        path,
+        SCHEMAS / "decision-memo-frontmatter.schema.json",
+    )
     assert errors
