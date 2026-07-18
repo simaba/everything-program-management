@@ -100,9 +100,10 @@
       "if": {"properties": {"status": {"const": "deferred"}}, "required": ["status"]},
       "then": {
         "properties": {
-          "decision": {"type": "string", "minLength": 5}
-        },
-        "required": ["review_date"]
+          "decided": {"type": "null"},
+          "decision": {"type": "string", "minLength": 5},
+          "review_date": {"type": "string", "format": "date"}
+        }
       }
     },
     {
