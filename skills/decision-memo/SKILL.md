@@ -4,7 +4,7 @@ description: >-
   Draft a decision memo that presents a clear question, at least two
   genuinely viable options, decision criteria, a recommendation, and
   consequences. Rejects single-option advocacy disguised as analysis and
-  validates frontmatter against schemas/decision-memo-frontmatter.json.
+  validates frontmatter against schemas/decision-memo-frontmatter.schema.json.
   TRIGGER when: a consequential choice has more than one reasonable path,
   the user asks for an options memo, or a decider needs a written recommendation.
   DO NOT TRIGGER when: there is no unresolved choice, the work is a routine task,
@@ -45,19 +45,36 @@ This distinction prevents a common failure mode: inventing weak alternatives aft
 6. **Mark reversibility.** A difficult-to-reverse decision deserves stronger evidence and a higher approval threshold.
 7. **Include the baseline.** “Do nothing” or “continue the current path” is often a real option and should be evaluated honestly.
 
-## Recommended structure
+## Frontmatter contract
 
-```markdown
+Frontmatter validates against [`schemas/decision-memo-frontmatter.schema.json`](../../schemas/decision-memo-frontmatter.schema.json).
+
+```yaml
 ---
 id: DM-0012
 title: "Which metadata-processing model should Northstar Library adopt?"
 decider: sponsor@example.test
 due: 2026-09-15
-status: draft | in_review | decided | deferred
-decided: null | 2026-09-12
-decision: null | "Option C"
+status: draft | in_review | decided | deferred | superseded
+decided: null
+decision: null
+review_date: 2026-10-15
+decision_scope: "Choose the processing model for the fictional pilot only."
+linked_raid_ids: [RAID-0017]
+tags: [fictional, platform-decision]
 ---
+```
 
+State rules enforced by the validator:
+
+- `draft` and `in_review` keep `decided` and `decision` null;
+- `decided` requires a decision date and decision value;
+- `deferred` requires a non-null review date and a decision value explaining the deferral;
+- `superseded` requires `supersedes: DM-####`.
+
+## Recommended body structure
+
+```markdown
 ## Decision
 [One sentence. Prefer A-vs-B wording or a clearly bounded question.]
 
@@ -186,7 +203,7 @@ Run a larger controlled sample and complete the contract review before committin
 - [ ] Reversibility and exit cost are explicit.
 - [ ] The recommendation states the leading residual risk.
 - [ ] A sensitivity or revisit trigger is documented.
-- [ ] Frontmatter validates against `schemas/decision-memo-frontmatter.json`.
+- [ ] Frontmatter validates against `schemas/decision-memo-frontmatter.schema.json`.
 
 ## Common failure modes
 
