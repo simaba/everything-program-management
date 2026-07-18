@@ -1,50 +1,67 @@
 ---
-title: [Decision Title]
-decision_owner: [Name]
-date: [YYYY-MM-DD]
+id: DM-0001
+title: "[Decision title]"
+decider: "[Named decider]"
+due: 2026-01-31
 status: draft
+decided: null
+decision: null
+review_date: 2026-03-31
+decision_scope: "[Bounded decision this memo is authorized to make]"
+linked_raid_ids: []
+tags: []
 ---
 
-# Decision Memo: [Decision Title]
+# Decision Memo: [Decision title]
 
-## Recommendation
+## Decision
 
-[State the recommendation clearly in 1 to 3 sentences.]
+[State the bounded choice in one sentence.]
 
-## Decision to make
+## Why now
 
-[What decision is required and by when?]
+[What changed, why a decision is required now, and the cost of delay.]
 
-## Context
+## Hard constraints
 
-[Background facts that matter for the decision.]
+- [Constraint, evidence source, and confirming owner]
+
+## Criteria
+
+| Criterion | Weight or gate | Evidence quality | Notes |
+|---|---:|---|---|
+| [Criterion] | [weight / hard gate] | [measured / estimated / assumed] | [Notes] |
 
 ## Options
 
-### Option 1: [Name]
-- Benefits:
-- Risks:
-- Cost / effort:
-- Dependencies:
+### Option A: [Name]
 
-### Option 2: [Name]
-- Benefits:
-- Risks:
-- Cost / effort:
-- Dependencies:
+- Evidence:
+- Key assumptions:
+- Reversibility:
+- Consequences:
 
-## Why the recommendation wins
+### Option B: [Name]
 
-[Why the recommended option is best given the current facts and constraints.]
+- Evidence:
+- Key assumptions:
+- Reversibility:
+- Consequences:
 
-## Risks and mitigations
+## Ruled out
 
-- [Risk] -> [Mitigation]
-- [Risk] -> [Mitigation]
+- [Alternative] — [disqualifying constraint and evidence]
 
-## Decision log
+## Recommendation
 
-- Decision owner: [Name]
-- Required approvers: [Names]
-- Target decision date: [Date]
-- Follow-up actions: [Actions]
+[State the recommended option, why it wins, and the leading residual risk.]
+
+## Sensitivity and uncertainty
+
+[Which assumption could change the recommendation? What evidence or date reopens the decision?]
+
+## Decision and follow-through
+
+- Immediate action if approved:
+- Review trigger:
+- Record or system of action:
