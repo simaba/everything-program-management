@@ -5,66 +5,110 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "decision_id",
+    "id",
     "title",
+    "decider",
+    "due",
     "status",
-    "owner",
-    "decision_date",
-    "review_date",
-    "recommended_option"
+    "decided",
+    "decision",
+    "review_date"
   ],
   "properties": {
-    "decision_id": {
+    "id": {
       "type": "string",
-      "pattern": "^DM-\\d{4}$"
+      "pattern": "^DM-[0-9]{4}$"
     },
     "title": {
       "type": "string",
       "minLength": 5,
-      "maxLength": 140
+      "maxLength": 160
+    },
+    "decider": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 120
+    },
+    "due": {
+      "type": "string",
+      "format": "date"
     },
     "status": {
       "type": "string",
-      "enum": ["draft", "in_review", "decided", "superseded"]
+      "enum": ["draft", "in_review", "decided", "deferred", "superseded"]
     },
-    "owner": {
-      "type": "string",
-      "minLength": 2,
-      "maxLength": 80
-    },
-    "decision_date": {
-      "type": "string",
+    "decided": {
+      "type": ["string", "null"],
       "format": "date"
+    },
+    "decision": {
+      "type": ["string", "null"],
+      "minLength": 1,
+      "maxLength": 120
     },
     "review_date": {
-      "type": "string",
+      "type": ["string", "null"],
       "format": "date"
     },
-    "recommended_option": {
+    "decision_scope": {
       "type": "string",
-      "minLength": 1,
-      "maxLength": 80
+      "minLength": 5,
+      "maxLength": 300
     },
-    "sponsor": {
+    "supersedes": {
       "type": "string",
-      "maxLength": 80
+      "pattern": "^DM-[0-9]{4}$"
     },
     "linked_raid_ids": {
       "type": "array",
+      "uniqueItems": true,
       "items": {
         "type": "string",
-        "pattern": "^(R|A|I|D)-\\d{4}$"
-      },
-      "uniqueItems": true
+        "pattern": "^RAID-[0-9]{4}$"
+      }
     },
     "tags": {
       "type": "array",
+      "uniqueItems": true,
       "items": {
         "type": "string",
         "minLength": 1,
         "maxLength": 40
-      },
-      "uniqueItems": true
+      }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "decided"}}, "required": ["status"]},
+      "then": {
+        "properties": {
+          "decided": {"type": "string", "format": "date"},
+          "decision": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"enum": ["draft", "in_review"]}}, "required": ["status"]},
+      "then": {
+        "properties": {
+          "decided": {"type": "null"},
+          "decision": {"type": "null"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "deferred"}}, "required": ["status"]},
+      "then": {
+        "properties": {
+          "decided": {"type": "null"},
+          "decision": {"type": "string", "minLength": 5},
+          "review_date": {"type": "string", "format": "date"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "superseded"}}, "required": ["status"]},
+      "then": {"required": ["supersedes"]}
+    }
+  ]
 }
